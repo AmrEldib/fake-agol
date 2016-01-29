@@ -5,7 +5,17 @@ var app = require('express')();
 module.exports = app; // for testing
 
 var config = {
-  appRoot: __dirname // required config
+  appRoot: __dirname, // required config
+  swaggerSecurityHandlers: {
+    agol_oauth_implicit: function (req, authOrSecDef, scopesOrApiKey, cb) {
+      // token is constant for now
+      if ('1234' === req.query.token) {
+        cb();
+      } else {
+        cb(new Error('access denied!'));
+      }
+    }
+  }
 };
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {
