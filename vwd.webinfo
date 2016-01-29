@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<!-- 
+  Visual Studio global web project settings.
+-->
+<VisualWebDeveloper>
+
+  <Globals>
+    <UserProperties api_4swagger_4swagger_1json__JSONSchema="http://json.schemastore.org/swagger-2.0"/>
+  </Globals>
+</VisualWebDeveloper>

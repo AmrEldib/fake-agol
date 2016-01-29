@@ -2,14 +2,19 @@
   "name": "fake-agol",
   "version": "0.0.1",
   "private": true,
-  "description": "New Swagger API Project",
-  "keywords": [],
-  "author": "",
+  "description": "Fake ArcGIS Online Server that simulate its REST API",
+  "keywords": [
+    "testing",
+    "esri",
+    "arcgis"
+  ],
+  "author": "Amr Eldib",
   "license": "",
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0"
+    "swagger-express-mw": "^0.1.0",
+    "agol-data-faker": "../agol-data-faker"
   },
   "devDependencies": {
     "should": "^7.1.0",
