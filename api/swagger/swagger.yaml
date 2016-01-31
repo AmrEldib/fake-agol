@@ -24,6 +24,7 @@
         read:portalResources: "reads portalResources"
         read:portalServers: "reads portalServers"
         read:portalUsers: "reads portalUsers"
+        read:server: "reads server"
   parameters: 
     f: 
       type: "string"
@@ -55,6 +56,24 @@
       maximum: 100
       minimum: 0
       required: false
+    portalId: 
+      name: "portalId"
+      in: "path"
+      description: "Id of the portal"
+      required: true
+      type: "string"
+    serverId: 
+      name: "serverId"
+      in: "path"
+      description: "Id of the server"
+      required: true
+      type: "string"
+    itemId: 
+      name: "itemId"
+      in: "path"
+      description: "Id of the item"
+      required: true
+      type: "string"
   paths: 
     /sharing/rest: 
       x-swagger-router-controller: "portalRoot"
@@ -210,6 +229,33 @@
             description: "Error"
             schema: 
               $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/portals/{portalId}/servers/{serverId}: 
+      x-swagger-router-controller: "server"
+      get: 
+        description: "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS"
+        operationId: "getServer"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:server"
+        parameters: 
+          - 
+            $ref: "#/parameters/portalId"
+          - 
+            $ref: "#/parameters/serverId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/server"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
     /sharing/rest/content/items/{itemId}/comments: 
       x-swagger-router-controller: "itemComments"
       get: 
@@ -221,11 +267,7 @@
               - "read:itemComments"
         parameters: 
           - 
-            name: "itemId"
-            in: "path"
-            description: "Id of the item"
-            required: true
-            type: "string"
+            $ref: "#/parameters/itemId"
           - 
             $ref: "#/parameters/f"
           - 
