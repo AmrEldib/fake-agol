@@ -32,6 +32,7 @@
         read:group: "reads group"
         read:groupApplications: "reads groupApplications"
         read:groupContent: "reads groupContent"
+        read:getGroupUsers: "reads getGroupUsers"
   parameters: 
     f: 
       type: "string"
@@ -485,6 +486,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/groupContent"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/groups/{groupId}/users: 
+      x-swagger-router-controller: "groupUsers"
+      get: 
+        description: "Lists the users, owner, and administrators of a given group. Only available to members or administrators of the group"
+        operationId: "getGroupUsers"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getGroupUsers"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/groupUsers"
           default: 
             description: "Error"
             schema: 
