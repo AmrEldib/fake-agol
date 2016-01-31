@@ -29,6 +29,7 @@
         read:item: "reads item"
         read:itemRelatedItems: "reads itemRelatedItems"
         read:itemRating: "reads itemRating"
+        read:group: "reads group"
   parameters: 
     f: 
       type: "string"
@@ -76,6 +77,12 @@
       name: "itemId"
       in: "path"
       description: "Id of the item"
+      required: true
+      type: "string"
+    groupId: 
+      name: "groupId"
+      in: "path"
+      description: "Id of the group"
       required: true
       type: "string"
   paths: 
@@ -401,6 +408,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/rating"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/groups/{groupId}: 
+      x-swagger-router-controller: "group"
+      get: 
+        description: " The Group resource represents a group (for example, San Bernardino Fires) within the portal. The owner is automatically an administrator and is returned in the list of admins. Administrators can invite, add to, or remove members from a group as well as update or delete the group. The administrator for an organization can also reassign the group to another member of the organization. Group members can leave the group. Authenticated users can apply to join a group unless the group is by invitation only. The visibility of the group by other users is determined by the access property. If the group is private, no one other than the administrators and members of the group will be able to see it. If the group is shared with an organization, all members of the organization will be able to find it"
+        operationId: "getGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:group"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/group"
           default: 
             description: "Error"
             schema: 
