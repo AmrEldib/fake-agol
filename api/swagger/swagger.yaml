@@ -31,6 +31,7 @@
         read:itemRating: "reads itemRating"
         read:group: "reads group"
         read:groupApplications: "reads groupApplications"
+        read:groupContent: "reads groupContent"
   parameters: 
     f: 
       type: "string"
@@ -459,6 +460,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/groupApplications"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/groups/{groupId}: 
+      x-swagger-router-controller: "groupContent"
+      get: 
+        description: "The group's content provides access to the items that are shared with the group. Group items are stored by reference and are not physically stored in a group. Rather, they are stored as links to the original item in the item resource (/content/items/<itemId>). Available only to the users of the group and the administrator of the organization to which the group belongs, if any"
+        operationId: "getGroupContent"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:groupContent"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/groupContent"
           default: 
             description: "Error"
             schema: 
