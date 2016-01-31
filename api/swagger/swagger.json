@@ -243,6 +243,33 @@
         }
       }
     },
+    "/sharing/rest/portals/regions": {
+      "x-swagger-router-controller": "portalRegions",
+      "get": {
+        "description": "Lists the available regions",
+        "operationId": "getPortalRegions",
+        "security": [ ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/regions"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/sharing/rest/content/items/{itemId}/comments": {
       "x-swagger-router-controller": "itemComments",
       "get": {
