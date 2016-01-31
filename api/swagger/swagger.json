@@ -1,4 +1,4 @@
-﻿{
+{
   "swagger": "2.0",
   "info": {
     "version": "0.0.1",
@@ -46,14 +46,15 @@
   },
   "paths": {
     "/sharing/rest/content/items/{itemId}/comments": {
-      "x-swagger-router-controller": "comments",
+      "x-swagger-router-controller": "itemComments",
       "get": {
         "description": "Lists all comments for an item",
-        "operationId": "comments",
+        "operationId": "getItemComments",
         "security": [
           {
             "agol_oauth_implicit": [ "read:comments" ]
-          } ],
+          }
+        ],
         "parameters": [
           {
             "name": "itemId",
