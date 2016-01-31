@@ -26,6 +26,7 @@
         read:server: "reads server"
         read:itemComments: "reads itemComments"
         read:itemComment: "reads itemComment"
+        read:item: "reads item"
   parameters: 
     f: 
       type: "string"
@@ -309,6 +310,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/comment"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/items/{itemId}: 
+      x-swagger-router-controller: "item"
+      get: 
+        description: "An item (a unit of content) in the portal. Each item has a unique identifier and a well known URL that is independent of the user owning the item. An item can have associated binary or textual data that's available via the item data resource. For example, an item of type Map Package returns the actual bits corresponding to the map package via the item data resource. The numViews is incremented when an item is opened"
+        operationId: "getItem"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:item"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/item"
           default: 
             description: "Error"
             schema: 
