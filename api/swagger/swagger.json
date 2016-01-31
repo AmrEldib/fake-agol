@@ -25,7 +25,8 @@
       "scopes": {
         "read:itemComments": "reads itemComments",
         "read:portalSelf": "reads portalSelf",
-        "read:portalResources": "reads portalResources"
+        "read:portalResources": "reads portalResources",
+        "read:portalServers": "reads portalServers"
       }
     }
   },
@@ -156,6 +157,40 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/resources"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/servers": {
+      "x-swagger-router-controller": "portalServers",
+      "get": {
+        "description": "This resource lists the ArcGIS Server sites that have been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS",
+        "operationId": "getPortalServers",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:portalServers" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/servers"
             }
           },
           "default": {
