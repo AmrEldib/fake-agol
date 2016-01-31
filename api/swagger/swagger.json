@@ -36,7 +36,9 @@
         "read:group": "reads group",
         "read:groupApplications": "reads groupApplications",
         "read:groupContent": "reads groupContent",
-        "read:getGroupUsers": "reads getGroupUsers"
+        "read:getGroupUsers": "reads getGroupUsers",
+        "read:groupApplication": "reads groupApplication",
+        "read:userInvitation": "reads userInvitation"
       }
     }
   },
@@ -100,6 +102,13 @@
       "name": "groupId",
       "in": "path",
       "description": "Id of the group",
+      "required": true,
+      "type": "string"
+    },
+    "userName": {
+      "name": "userName",
+      "in": "path",
+      "description": "Name of the user",
       "required": true,
       "type": "string"
     }
@@ -719,6 +728,94 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/groupUsers"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/groups/{groupId}/applications/{applicationUsername}": {
+      "x-swagger-router-controller": "groupApplication",
+      "get": {
+        "description": "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization",
+        "operationId": "getGroupApplication",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:groupApplication" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "name": "applicationUsername",
+            "in": "path",
+            "description": "User applying to join the group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupApplication"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/invitations/{invitationId}": {
+      "x-swagger-router-controller": "userInvitation",
+      "get": {
+        "description": " An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types",
+        "operationId": "getUserInvitation",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:userInvitation" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "name": "invitationId",
+            "in": "path",
+            "description": "Id of the user invitation",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userInvitation"
             }
           },
           "default": {
