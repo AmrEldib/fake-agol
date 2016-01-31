@@ -19,12 +19,13 @@
       flow: "implicit"
       description: "AGOL OAuth Implicit Authentication - Browser-based User Logins https://developers.arcgis.com/authentication/browser-based-user-logins/"
       scopes: 
-        read:itemComments: "reads itemComments"
         read:portalSelf: "reads portalSelf"
         read:portalResources: "reads portalResources"
         read:portalServers: "reads portalServers"
         read:portalUsers: "reads portalUsers"
         read:server: "reads server"
+        read:itemComments: "reads itemComments"
+        read:itemComment: "reads itemComment"
   parameters: 
     f: 
       type: "string"
@@ -277,6 +278,37 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/comments"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/items/{itemId}/comments/{commentId}: 
+      x-swagger-router-controller: "itemComment"
+      get: 
+        description: "Gets details for a particular comment"
+        operationId: "getItemComment"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:itemComment"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            name: "commentId"
+            in: "path"
+            description: "Id of the comment"
+            required: true
+            type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/comment"
           default: 
             description: "Error"
             schema: 
