@@ -21,6 +21,7 @@
       scopes: 
         read:itemComments: "reads itemComments"
         read:portalSelf: "reads portalSelf"
+        read:portalResources: "reads portalResources"
   parameters: 
     f: 
       type: "string"
@@ -35,6 +36,23 @@
       name: "token"
       in: "query"
       required: true
+    start: 
+      type: "number"
+      description: "The number of the first entry in the result set response. The index number is 1-based. The default value of start is 1 (that is, the first search result). The start parameter, along with the num parameter, can be used to paginate the search results. Example: start=11 (return result #11 as the first entry in the response)"
+      name: "start"
+      in: "query"
+      default: 1
+      minimum: 1
+      required: false
+    num: 
+      type: "number"
+      description: "The maximum number of results to be included in the result set response. The default value is 10, and the maximum allowed value is 100. The start parameter, along with the num parameter, can be used to paginate the search results. "
+      name: "num"
+      in: "query"
+      default: 10
+      maximum: 100
+      minimum: 0
+      required: false
   paths: 
     /sharing/rest: 
       x-swagger-router-controller: "portalRoot"
@@ -73,6 +91,33 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/portal"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/portals/resources: 
+      x-swagger-router-controller: "portalResources"
+      get: 
+        description: "Resources lists all file resources for the organization. The start and num paging parameters are supported."
+        operationId: "getPortalResources"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:portalResources"
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+          - 
+            $ref: "#/parameters/start"
+          - 
+            $ref: "#/parameters/num"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/resources"
           default: 
             description: "Error"
             schema: 
