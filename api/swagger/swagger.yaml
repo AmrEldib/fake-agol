@@ -28,6 +28,7 @@
         read:itemComment: "reads itemComment"
         read:item: "reads item"
         read:itemRelatedItems: "reads itemRelatedItems"
+        read:itemRating: "reads itemRating"
   parameters: 
     f: 
       type: "string"
@@ -375,6 +376,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/relatedItems"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/items/{itemId}/rating: 
+      x-swagger-router-controller: "itemRating"
+      get: 
+        description: "Lists all comments for an item"
+        operationId: "getItemRating"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:itemRating"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/rating"
           default: 
             description: "Error"
             schema: 
