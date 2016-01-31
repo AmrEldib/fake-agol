@@ -23,6 +23,7 @@
         read:portalSelf: "reads portalSelf"
         read:portalResources: "reads portalResources"
         read:portalServers: "reads portalServers"
+        read:portalUsers: "reads portalUsers"
   parameters: 
     f: 
       type: "string"
@@ -142,6 +143,33 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/servers"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/portals/users: 
+      x-swagger-router-controller: "portalUsers"
+      get: 
+        description: "Lists all the members of the organization. The start and num paging parameters are supported"
+        operationId: "getPortalUsers"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:portalUsers"
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+          - 
+            $ref: "#/parameters/start"
+          - 
+            $ref: "#/parameters/num"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/users"
           default: 
             description: "Error"
             schema: 
