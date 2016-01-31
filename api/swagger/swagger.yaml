@@ -19,7 +19,7 @@
       flow: "implicit"
       description: "AGOL OAuth Implicit Authentication - Browser-based User Logins https://developers.arcgis.com/authentication/browser-based-user-logins/"
       scopes: 
-        read:comments: "reads comments"
+        read:itemComments: "reads itemComments"
   parameters: 
     f: 
       type: "string"
@@ -35,6 +35,24 @@
       in: "query"
       required: true
   paths: 
+    /sharing/rest: 
+      x-swagger-router-controller: "portalRoot"
+      get: 
+        description: "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals."
+        operationId: "getPortalRoot"
+        security: []
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/root"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
     /sharing/rest/content/items/{itemId}/comments: 
       x-swagger-router-controller: "itemComments"
       get: 
@@ -43,7 +61,7 @@
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:comments"
+              - "read:itemComments"
         parameters: 
           - 
             name: "itemId"
