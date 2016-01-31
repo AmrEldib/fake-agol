@@ -20,6 +20,7 @@
       description: "AGOL OAuth Implicit Authentication - Browser-based User Logins https://developers.arcgis.com/authentication/browser-based-user-logins/"
       scopes: 
         read:itemComments: "reads itemComments"
+        read:portalSelf: "reads portalSelf"
   parameters: 
     f: 
       type: "string"
@@ -49,6 +50,29 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/root"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/portals/self: 
+      x-swagger-router-controller: "portalSelf"
+      get: 
+        description: "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users."
+        operationId: "getPortalSelf"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:portalSelf"
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/portal"
           default: 
             description: "Error"
             schema: 
