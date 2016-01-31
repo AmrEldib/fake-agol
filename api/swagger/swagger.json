@@ -33,7 +33,8 @@
         "read:item": "reads item",
         "read:itemRelatedItems": "reads itemRelatedItems",
         "read:itemRating": "reads itemRating",
-        "read:group": "reads group"
+        "read:group": "reads group",
+        "read:groupApplications": "reads groupApplications"
       }
     }
   },
@@ -605,6 +606,43 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/group"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/groups/{groupId}/applications": {
+      "x-swagger-router-controller": "groupApplications",
+      "get": {
+        "description": "Lists the group applications for the given group. Available to administrators of the group or administrators of an organization if the group is part of one",
+        "operationId": "getGroupApplications",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:groupApplications" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupApplications"
             }
           },
           "default": {
