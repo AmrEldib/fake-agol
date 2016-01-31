@@ -270,6 +270,33 @@
         }
       }
     },
+    "/sharing/rest/portals/languages": {
+      "x-swagger-router-controller": "portalLanguages",
+      "get": {
+        "description": "Lists the available languages",
+        "operationId": "getPortalLanguages",
+        "security": [ ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/languages"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/sharing/rest/content/items/{itemId}/comments": {
       "x-swagger-router-controller": "itemComments",
       "get": {
