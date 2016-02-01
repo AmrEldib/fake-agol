@@ -42,6 +42,7 @@
         read:user: "reads user"
         read:userContent: "reads userContent"
         read:userInvitations: "reads userInvitations"
+        read:userTags: "reads userTags"
   parameters: 
     f: 
       type: "string"
@@ -767,6 +768,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/userInvitations"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/users/{userName}/tags: 
+      x-swagger-router-controller: "userTags"
+      get: 
+        description: "Users tag the content they publish in their portal via the add and update item calls. This resource lists all the tags used by the user along with the number of times the tags have been used"
+        operationId: "getUserTags"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:userTags"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/userTags"
           default: 
             description: "Error"
             schema: 
