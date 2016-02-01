@@ -36,6 +36,7 @@
         read:groupApplication: "reads groupApplication"
         read:userInvitation: "reads userInvitation"
         read:groups: "reads groups"
+        read:notifications: "reads notifications"
   parameters: 
     f: 
       type: "string"
@@ -607,6 +608,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/groups"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/users/{userName}/notifications: 
+      x-swagger-router-controller: "notifications"
+      get: 
+        description: "The list of notifications available for the given user. These can have different types as described in the documentation for the Notification resource"
+        operationId: "getNotifications"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:notifications"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/notifications"
           default: 
             description: "Error"
             schema: 
