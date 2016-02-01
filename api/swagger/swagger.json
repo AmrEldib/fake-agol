@@ -40,7 +40,8 @@
         "read:groupApplication": "reads groupApplication",
         "read:userInvitation": "reads userInvitation",
         "read:groups": "reads groups",
-        "read:notifications": "reads notifications"
+        "read:notifications": "reads notifications",
+        "read:userSelf": "reads userSelf"
       }
     }
   },
@@ -892,6 +893,40 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/notifications"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/self": {
+      "x-swagger-router-controller": "userSelf",
+      "get": {
+        "description": "This resource allows discovery of the current authenticated user identified by the token",
+        "operationId": "getUserSelf",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:userSelf" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
             }
           },
           "default": {
