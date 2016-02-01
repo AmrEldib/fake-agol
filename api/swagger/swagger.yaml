@@ -35,6 +35,7 @@
         read:getGroupUsers: "reads getGroupUsers"
         read:groupApplication: "reads groupApplication"
         read:userInvitation: "reads userInvitation"
+        read:groups: "reads groups"
   parameters: 
     f: 
       type: "string"
@@ -581,6 +582,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/userInvitation"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/items/{itemId}/groups: 
+      x-swagger-router-controller: "groups"
+      get: 
+        description: "Lists the groups of which the item is a part. Only shows the groups that the calling user can access"
+        operationId: "getGroups"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:groups"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/groups"
           default: 
             description: "Error"
             schema: 
