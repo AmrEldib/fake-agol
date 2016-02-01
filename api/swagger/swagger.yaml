@@ -36,6 +36,7 @@
         read:groupApplication: "reads groupApplication"
         read:userInvitation: "reads userInvitation"
         read:groups: "reads groups"
+        read:notification: "reads notification"
         read:notifications: "reads notifications"
         read:userSelf: "reads userSelf"
         read:user: "reads user"
@@ -611,6 +612,37 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/groups"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/users/{userName}/notifications/{notificationId}: 
+      x-swagger-router-controller: "notification"
+      get: 
+        description: "An individual notification for the given user that can be of different types as described in the Notification types section below. Available only to the user recipient of the notification. In the JSON response for a notification, the data property will vary based on the notification type"
+        operationId: "getNotification"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:notification"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            name: "notificationId"
+            in: "path"
+            description: "Id of the notification"
+            required: true
+            type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/notification"
           default: 
             description: "Error"
             schema: 
