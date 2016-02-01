@@ -38,6 +38,7 @@
         read:groups: "reads groups"
         read:notifications: "reads notifications"
         read:userSelf: "reads userSelf"
+        read:user: "reads user"
   parameters: 
     f: 
       type: "string"
@@ -648,6 +649,31 @@
             agol_oauth_implicit: 
               - "read:userSelf"
         parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/user"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/users/{userName}: 
+      x-swagger-router-controller: "user"
+      get: 
+        description: "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private.'"
+        operationId: "getUser"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:user"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
           - 
             $ref: "#/parameters/f"
           - 
