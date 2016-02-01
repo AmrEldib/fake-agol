@@ -39,6 +39,7 @@
         read:notifications: "reads notifications"
         read:userSelf: "reads userSelf"
         read:user: "reads user"
+        read:userContent: "reads userContent"
   parameters: 
     f: 
       type: "string"
@@ -665,7 +666,7 @@
     /sharing/rest/community/users/{userName}: 
       x-swagger-router-controller: "user"
       get: 
-        description: "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private.'"
+        description: "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private."
         operationId: "getUser"
         security: 
           - 
@@ -683,6 +684,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/user"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/content/users/{userName}: 
+      x-swagger-router-controller: "userContent"
+      get: 
+        description: "The user's content are items either in the home folder for the user, e.g. /content/users/<username>, or in a subfolder of the home folder with the given folder ID. Multilevel folders are not supported. You can also see the Quick reference topic for additional information on this. Items in a folder are stored by reference and are not physically in a folder. Rather, they're stored as links to the original item, e.g. /content/items/<itemId>"
+        operationId: "getUserContent"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:userContent"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/userContent"
           default: 
             description: "Error"
             schema: 
