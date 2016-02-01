@@ -41,6 +41,7 @@
         read:userSelf: "reads userSelf"
         read:user: "reads user"
         read:userContent: "reads userContent"
+        read:userInvitations: "reads userInvitations"
   parameters: 
     f: 
       type: "string"
@@ -741,6 +742,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/userContent"
+          default: 
+            description: "Error"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /sharing/rest/community/users/{userName}/invitations: 
+      x-swagger-router-controller: "userInvitations"
+      get: 
+        description: "Shows the invitations sent to the authenticated user"
+        operationId: "getUserInvitations"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:userInvitations"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/userInvitations"
           default: 
             description: "Error"
             schema: 
