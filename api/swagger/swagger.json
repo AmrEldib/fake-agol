@@ -23,30 +23,31 @@
       "flow": "implicit",
       "description": "AGOL OAuth Implicit Authentication - Browser-based User Logins https://developers.arcgis.com/authentication/browser-based-user-logins/",
       "scopes": {
-        "read:portalSelf": "reads portalSelf",
-        "read:portalResources": "reads portalResources",
-        "read:portalServers": "reads portalServers",
-        "read:portalUsers": "reads portalUsers",
-        "read:server": "reads server",
-        "read:itemComments": "reads itemComments",
-        "read:itemComment": "reads itemComment",
-        "read:item": "reads item",
-        "read:itemRelatedItems": "reads itemRelatedItems",
-        "read:itemRating": "reads itemRating",
-        "read:group": "reads group",
-        "read:groupApplications": "reads groupApplications",
-        "read:groupContent": "reads groupContent",
+        "read:getPortalSelf": "reads getPortalSelf",
+        "read:getPortalResources": "reads getPortalResources",
+        "read:getPortalServers": "reads getPortalServers",
+        "read:getPortalUsers": "reads getPortalUsers",
+        "read:getPortalServer": "reads getPortalServer",
+        "read:getItemComments": "reads getItemComments",
+        "read:getItemComment": "reads getItemComment",
+        "read:getItem": "reads getItem",
+        "read:getRelatedItems": "reads getRelatedItems",
+        "read:getItemRating": "reads getItemRating",
+        "read:getGroup": "reads getGroup",
+        "read:getGroupApplications": "reads getGroupApplications",
+        "read:getGroupContent": "reads getGroupContent",
         "read:getGroupUsers": "reads getGroupUsers",
-        "read:groupApplication": "reads groupApplication",
-        "read:userInvitation": "reads userInvitation",
-        "read:groups": "reads groups",
-        "read:notification": "reads notification",
-        "read:notifications": "reads notifications",
-        "read:userSelf": "reads userSelf",
-        "read:user": "reads user",
-        "read:userContent": "reads userContent",
-        "read:userInvitations": "reads userInvitations",
-        "read:userTags": "reads userTags"
+        "read:getGroupApplication": "reads getGroupApplication",
+        "read:getUserInvitation": "reads getUserInvitation",
+        "read:getItemGroups": "reads getItemGroups",
+        "read:getNotification": "reads getNotification",
+        "read:getNotifications": "reads getNotifications",
+        "read:getUserSelf": "reads getUserSelf",
+        "read:getUser": "reads getUser",
+        "read:getUserContent": "reads getUserContent",
+        "read:getUserInvitations": "reads getUserInvitations",
+        "read:getUserTags": "reads getUserTags",
+        "post:updateUser": "posts updateUser"
       }
     }
   },
@@ -123,10 +124,15 @@
   },
   "paths": {
     "/sharing/rest": {
-      "x-swagger-router-controller": "portalRoot",
+      "x-swagger-router-controller": "getOrgRoot",
       "get": {
+        "summary": "Root",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Root",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Root/02r30000009t000000/"
+        },
         "description": "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals.",
-        "operationId": "getPortalRoot",
+        "operationId": "getOrgRoot",
         "security": [ ],
         "parameters": [
           {
@@ -137,7 +143,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/root"
+              "$ref": "#/definitions/getOrgRoot"
             }
           },
           "default": {
@@ -149,14 +155,285 @@
         }
       }
     },
-    "/sharing/rest/portals/self": {
-      "x-swagger-router-controller": "portalSelf",
+    "/sharing/rest/community/groups/{groupId}": {
+      "x-swagger-router-controller": "getGroup",
       "get": {
-        "description": "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users.",
-        "operationId": "getPortalSelf",
+        "summary": "Group",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Group",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group/02r30000006m000000/"
+        },
+        "description": " The Group resource represents a group (for example, San Bernardino Fires) within the portal. The owner is automatically an administrator and is returned in the list of admins. Administrators can invite, add to, or remove members from a group as well as update or delete the group. The administrator for an organization can also reassign the group to another member of the organization. Group members can leave the group. Authenticated users can apply to join a group unless the group is by invitation only. The visibility of the group by other users is determined by the access property. If the group is private, no one other than the administrators and members of the group will be able to see it. If the group is shared with an organization, all members of the organization will be able to find it",
+        "operationId": "getGroup",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:portalSelf" ]
+            "agol_oauth_implicit": [ "read:getGroup" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getGroup"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/groups/{groupId}/applications/{applicationUsername}": {
+      "x-swagger-router-controller": "getGroupApplication",
+      "get": {
+        "summary": "Group Application",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Group Application",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Application/02r30000006r000000/"
+        },
+        "description": "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization",
+        "operationId": "getGroupApplication",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getGroupApplication" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "name": "applicationUsername",
+            "in": "path",
+            "description": "User applying to join the group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getGroupApplication"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/groups/{groupId}/applications": {
+      "x-swagger-router-controller": "getGroupApplications",
+      "get": {
+        "summary": "Group Applications",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Group Applications",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Applications/02r300000068000000/"
+        },
+        "description": "Lists the group applications for the given group. Available to administrators of the group or administrators of an organization if the group is part of one",
+        "operationId": "getGroupApplications",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getGroupApplications" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getGroupApplications"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/groups/{groupId}/users": {
+      "x-swagger-router-controller": "getGroupUsers",
+      "get": {
+        "summary": "Group Users",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Group Users",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Users/02r30000006p000000/"
+        },
+        "description": "Lists the users, owner, and administrators of a given group. Only available to members or administrators of the group",
+        "operationId": "getGroupUsers",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getGroupUsers" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/groupId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getGroupUsers"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/notifications/{notificationId}": {
+      "x-swagger-router-controller": "getNotification",
+      "get": {
+        "summary": "Notification",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Notification",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Notification/02r30000006t000000/"
+        },
+        "description": "An individual notification for the given user that can be of different types as described in the Notification types section below. Available only to the user recipient of the notification. In the JSON response for a notification, the data property will vary based on the notification type",
+        "operationId": "getNotification",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getNotification" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "name": "notificationId",
+            "in": "path",
+            "description": "Id of the notification",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getNotification"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/notifications": {
+      "x-swagger-router-controller": "getNotifications",
+      "get": {
+        "summary": "Notifications",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Notifications",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Notifications/02r30000006s000000/"
+        },
+        "description": "The list of notifications available for the given user. These can have different types as described in the documentation for the Notification resource",
+        "operationId": "getNotifications",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getNotifications" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getNotification"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/self": {
+      "x-swagger-router-controller": "getUserSelf",
+      "get": {
+        "summary": "Self",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Self",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Self/02r300000079000000/"
+        },
+        "description": "This resource allows discovery of the current authenticated user identified by the token",
+        "operationId": "getUserSelf",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getUserSelf" ]
           }
         ],
         "parameters": [
@@ -171,7 +448,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/portal"
+              "$ref": "#/definitions/getUser"
             }
           },
           "default": {
@@ -183,190 +460,24 @@
         }
       }
     },
-    "/sharing/rest/portals/resources": {
-      "x-swagger-router-controller": "portalResources",
-      "get": {
-        "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported.",
-        "operationId": "getPortalResources",
+    "/sharing/rest/community/users/{userName}/update": {
+      "x-swagger-router-controller": "updateUser",
+      "post": {
+        "summary": "Update User",
+        "externalDocs": {
+          "description": "Managing your organization > Community > Update User",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Update_User/02r3000000m0000000/"
+        },
+        "description": "The Update User operation (POST only) modifies properties such as description, preferred view, tags, access, and thumbnail. The user name cannot be modified. For the 'ecas' identity provider, password, e-mail, and full name must be modified by editing your Esri Global Account. For the 'arcgis' identity provider, password, full name, security question, and security answer can be updated with Update User. Update User is available only to the user or to the administrator of the user's organization. Only the properties that are to be updated need to be specified in the request. Properties not specified will not be affected. ",
+        "operationId": "updateUser",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:portalResources" ]
+            "agol_oauth_implicit": [ "post:updateUser" ]
           }
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          },
-          {
-            "$ref": "#/parameters/start"
-          },
-          {
-            "$ref": "#/parameters/num"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/resources"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/portals/servers": {
-      "x-swagger-router-controller": "portalServers",
-      "get": {
-        "description": "This resource lists the ArcGIS Server sites that have been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS",
-        "operationId": "getPortalServers",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:portalServers" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/servers"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/portals/users": {
-      "x-swagger-router-controller": "portalUsers",
-      "get": {
-        "description": "Lists all the members of the organization. The start and num paging parameters are supported",
-        "operationId": "getPortalUsers",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:portalUsers" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          },
-          {
-            "$ref": "#/parameters/start"
-          },
-          {
-            "$ref": "#/parameters/num"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/users"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/portals/regions": {
-      "x-swagger-router-controller": "portalRegions",
-      "get": {
-        "description": "Lists the available regions",
-        "operationId": "getPortalRegions",
-        "security": [ ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/f"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/regions"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/portals/languages": {
-      "x-swagger-router-controller": "portalLanguages",
-      "get": {
-        "description": "Lists the available languages",
-        "operationId": "getPortalLanguages",
-        "security": [ ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/f"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/languages"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/portals/{portalId}/servers/{serverId}": {
-      "x-swagger-router-controller": "server",
-      "get": {
-        "description": "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS",
-        "operationId": "getServer",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:server" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/portalId"
-          },
-          {
-            "$ref": "#/parameters/serverId"
+            "$ref": "#/parameters/userName"
           },
           {
             "$ref": "#/parameters/f"
@@ -379,7 +490,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/server"
+              "$ref": "#/definitions/updateUser"
             }
           },
           "default": {
@@ -391,14 +502,194 @@
         }
       }
     },
-    "/sharing/rest/content/items/{itemId}/comments": {
-      "x-swagger-router-controller": "itemComments",
+    "/sharing/rest/community/users/{userName}": {
+      "x-swagger-router-controller": "getUser",
       "get": {
-        "description": "Lists all comments for an item",
-        "operationId": "getItemComments",
+        "summary": "User",
+        "externalDocs": {
+          "description": "Managing your organization > Community > User",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User/02r3000000m2000000/"
+        },
+        "description": "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private.",
+        "operationId": "getUser",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:itemComments" ]
+            "agol_oauth_implicit": [ "read:getUser" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getUser"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/invitations/{invitationId}": {
+      "x-swagger-router-controller": "getUserInvitation",
+      "get": {
+        "summary": "User Invitation",
+        "externalDocs": {
+          "description": "Managing your organization > Community > User Invitation",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitation/02r3000000mr000000/"
+        },
+        "description": "An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types",
+        "operationId": "getUserInvitation",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getUserInvitation" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "name": "invitationId",
+            "in": "path",
+            "description": "Id of the user invitation",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getUserInvitation"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/invitations": {
+      "x-swagger-router-controller": "getUserInvitations",
+      "get": {
+        "summary": "User Invitations",
+        "externalDocs": {
+          "description": "Managing your organization > Community > User Invitations",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitations/02r3000000m7000000/"
+        },
+        "description": "Shows the invitations sent to the authenticated user",
+        "operationId": "getUserInvitations",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getUserInvitations" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getUserInvitations"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/community/users/{userName}/tags": {
+      "x-swagger-router-controller": "getUserTags",
+      "get": {
+        "summary": "User Tags",
+        "externalDocs": {
+          "description": "Managing your organization > Community > User Tags",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Tags/02r3000000m9000000/"
+        },
+        "description": "Users tag the content they publish in their portal via the add and update item calls. This resource lists all the tags used by the user along with the number of times the tags have been used",
+        "operationId": "getUserTags",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getUserTags" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userName"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getUserTags"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/content/items/{itemId}/groups": {
+      "x-swagger-router-controller": "getItemGroups",
+      "get": {
+        "summary": "Groups",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Groups",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Groups/02r30000009p000000/"
+        },
+        "description": "Lists the groups of which the item is a part. Only shows the groups that the calling user can access",
+        "operationId": "getItemGroups",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getItemGroups" ]
           }
         ],
         "parameters": [
@@ -416,7 +707,91 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/comments"
+              "$ref": "#/definitions/getItemGroups"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/content/items/{itemId}": {
+      "x-swagger-router-controller": "getItem",
+      "get": {
+        "summary": "Item",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Item",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Item/02r30000007w000000/"
+        },
+        "description": "An item (a unit of content) in the portal. Each item has a unique identifier and a well known URL that is independent of the user owning the item. An item can have associated binary or textual data that's available via the item data resource. For example, an item of type Map Package returns the actual bits corresponding to the map package via the item data resource. The numViews is incremented when an item is opened",
+        "operationId": "getItem",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getItem" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/itemId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getItem"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/content/items/{itemId}/comments": {
+      "x-swagger-router-controller": "getItemComments",
+      "get": {
+        "summary": "Item Comments",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Item Comments",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Item_Comments/02r300000088000000/"
+        },
+        "description": "Lists all comments for an item",
+        "operationId": "getItemComments",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getItemComments" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/itemId"
+          },
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getItemComments"
             }
           },
           "default": {
@@ -429,13 +804,18 @@
       }
     },
     "/sharing/rest/content/items/{itemId}/comments/{commentId}": {
-      "x-swagger-router-controller": "itemComment",
+      "x-swagger-router-controller": "getItemComment",
       "get": {
+        "summary": "Item Comment",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Item Comment",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Item_Comment/02r300000091000000/"
+        },
         "description": "Gets details for a particular comment",
         "operationId": "getItemComment",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:itemComment" ]
+            "agol_oauth_implicit": [ "read:getItemComment" ]
           }
         ],
         "parameters": [
@@ -460,7 +840,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/comment"
+              "$ref": "#/definitions/getItemComment"
             }
           },
           "default": {
@@ -472,14 +852,19 @@
         }
       }
     },
-    "/sharing/rest/content/items/{itemId}": {
-      "x-swagger-router-controller": "item",
+    "/sharing/rest/content/items/{itemId}/rating": {
+      "x-swagger-router-controller": "getItemRating",
       "get": {
-        "description": "An item (a unit of content) in the portal. Each item has a unique identifier and a well known URL that is independent of the user owning the item. An item can have associated binary or textual data that's available via the item data resource. For example, an item of type Map Package returns the actual bits corresponding to the map package via the item data resource. The numViews is incremented when an item is opened",
-        "operationId": "getItem",
+        "summary": "Item Rating",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Item Rating",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Item_Rating/02r300000098000000/"
+        },
+        "description": "Lists all comments for an item",
+        "operationId": "getItemRating",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:item" ]
+            "agol_oauth_implicit": [ "read:getItemRating" ]
           }
         ],
         "parameters": [
@@ -497,7 +882,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/getItemRating"
             }
           },
           "default": {
@@ -510,13 +895,18 @@
       }
     },
     "/sharing/rest/content/items/{itemId}/relatedItems": {
-      "x-swagger-router-controller": "itemRelatedItems",
+      "x-swagger-router-controller": "getRelatedItems",
       "get": {
+        "summary": "Related Items",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Related Items",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Related_Items/02r300000085000000/"
+        },
         "description": "Gets all the related items of a certain relationship type for that item. An optional direction can be specified if the direction of the relationship is ambiguous. Otherwise, the service will try to infer it",
-        "operationId": "getItemRelatedItems",
+        "operationId": "getRelatedItems",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:itemRelatedItems" ]
+            "agol_oauth_implicit": [ "read:getRelatedItems" ]
           }
         ],
         "parameters": [
@@ -550,118 +940,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/relatedItems"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/content/items/{itemId}/rating": {
-      "x-swagger-router-controller": "itemRating",
-      "get": {
-        "description": "Lists all comments for an item",
-        "operationId": "getItemRating",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:itemRating" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/itemId"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/rating"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/groups/{groupId}": {
-      "x-swagger-router-controller": "group",
-      "get": {
-        "description": " The Group resource represents a group (for example, San Bernardino Fires) within the portal. The owner is automatically an administrator and is returned in the list of admins. Administrators can invite, add to, or remove members from a group as well as update or delete the group. The administrator for an organization can also reassign the group to another member of the organization. Group members can leave the group. Authenticated users can apply to join a group unless the group is by invitation only. The visibility of the group by other users is determined by the access property. If the group is private, no one other than the administrators and members of the group will be able to see it. If the group is shared with an organization, all members of the organization will be able to find it",
-        "operationId": "getGroup",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:group" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/groupId"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/group"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/groups/{groupId}/applications": {
-      "x-swagger-router-controller": "groupApplications",
-      "get": {
-        "description": "Lists the group applications for the given group. Available to administrators of the group or administrators of an organization if the group is part of one",
-        "operationId": "getGroupApplications",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:groupApplications" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/groupId"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/groupApplications"
+              "$ref": "#/definitions/getRelatedItems"
             }
           },
           "default": {
@@ -674,13 +953,18 @@
       }
     },
     "/sharing/rest/content/groups/{groupId}": {
-      "x-swagger-router-controller": "groupContent",
+      "x-swagger-router-controller": "getGroupContent",
       "get": {
+        "summary": "Group Content",
+        "externalDocs": {
+          "description": "Managing your organization > Content > Group Content",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Content/02r300000081000000/"
+        },
         "description": "The group's content provides access to the items that are shared with the group. Group items are stored by reference and are not physically stored in a group. Rather, they are stored as links to the original item in the item resource (/content/items/<itemId>). Available only to the users of the group and the administrator of the organization to which the group belongs, if any",
         "operationId": "getGroupContent",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:groupContent" ]
+            "agol_oauth_implicit": [ "read:getGroupContent" ]
           }
         ],
         "parameters": [
@@ -698,321 +982,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/groupContent"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/groups/{groupId}/users": {
-      "x-swagger-router-controller": "groupUsers",
-      "get": {
-        "description": "Lists the users, owner, and administrators of a given group. Only available to members or administrators of the group",
-        "operationId": "getGroupUsers",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:getGroupUsers" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/groupId"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/groupUsers"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/groups/{groupId}/applications/{applicationUsername}": {
-      "x-swagger-router-controller": "groupApplication",
-      "get": {
-        "description": "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization",
-        "operationId": "getGroupApplication",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:groupApplication" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/groupId"
-          },
-          {
-            "name": "applicationUsername",
-            "in": "path",
-            "description": "User applying to join the group",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/groupApplication"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/users/{userName}/invitations/{invitationId}": {
-      "x-swagger-router-controller": "userInvitation",
-      "get": {
-        "description": " An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types",
-        "operationId": "getUserInvitation",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:userInvitation" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userName"
-          },
-          {
-            "name": "invitationId",
-            "in": "path",
-            "description": "Id of the user invitation",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/userInvitation"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/content/items/{itemId}/groups": {
-      "x-swagger-router-controller": "groups",
-      "get": {
-        "description": "Lists the groups of which the item is a part. Only shows the groups that the calling user can access",
-        "operationId": "getGroups",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:groups" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/itemId"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/groups"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/users/{userName}/notifications/{notificationId}": {
-      "x-swagger-router-controller": "notification",
-      "get": {
-        "description": "An individual notification for the given user that can be of different types as described in the Notification types section below. Available only to the user recipient of the notification. In the JSON response for a notification, the data property will vary based on the notification type",
-        "operationId": "getNotification",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:notification" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userName"
-          },
-          {
-            "name": "notificationId",
-            "in": "path",
-            "description": "Id of the notification",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/notification"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/users/{userName}/notifications": {
-      "x-swagger-router-controller": "notifications",
-      "get": {
-        "description": "The list of notifications available for the given user. These can have different types as described in the documentation for the Notification resource",
-        "operationId": "getNotifications",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:notifications" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userName"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/notifications"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/self": {
-      "x-swagger-router-controller": "userSelf",
-      "get": {
-        "description": "This resource allows discovery of the current authenticated user identified by the token",
-        "operationId": "getUserSelf",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:userSelf" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/user"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sharing/rest/community/users/{userName}": {
-      "x-swagger-router-controller": "user",
-      "get": {
-        "description": "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private.",
-        "operationId": "getUser",
-        "security": [
-          {
-            "agol_oauth_implicit": [ "read:user" ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userName"
-          },
-          {
-            "$ref": "#/parameters/f"
-          },
-          {
-            "$ref": "#/parameters/token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/getGroupContent"
             }
           },
           "default": {
@@ -1025,13 +995,18 @@
       }
     },
     "/sharing/rest/content/users/{userName}": {
-      "x-swagger-router-controller": "userContent",
+      "x-swagger-router-controller": "getUserContent",
       "get": {
+        "summary": "User Content",
+        "externalDocs": {
+          "description": "Managing your organization > Content > User Content",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Content/02r30000007p000000/"
+        },
         "description": "The user's content are items either in the home folder for the user, e.g. /content/users/<username>, or in a subfolder of the home folder with the given folder ID. Multilevel folders are not supported. You can also see the Quick reference topic for additional information on this. Items in a folder are stored by reference and are not physically in a folder. Rather, they're stored as links to the original item, e.g. /content/items/<itemId>",
         "operationId": "getUserContent",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:userContent" ]
+            "agol_oauth_implicit": [ "read:getUserContent" ]
           }
         ],
         "parameters": [
@@ -1049,7 +1024,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/userContent"
+              "$ref": "#/definitions/getUserContent"
             }
           },
           "default": {
@@ -1061,20 +1036,22 @@
         }
       }
     },
-    "/sharing/rest/community/users/{userName}/invitations": {
-      "x-swagger-router-controller": "userInvitations",
+    "/sharing/rest/portals/self": {
+      "x-swagger-router-controller": "getPortalSelf",
       "get": {
-        "description": "Shows the invitations sent to the authenticated user",
-        "operationId": "getUserInvitations",
+        "summary": "Portal Self",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Self",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/"
+        },
+        "description": "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users.",
+        "operationId": "getPortalSelf",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:userInvitations" ]
+            "agol_oauth_implicit": [ "read:getPortalSelf" ]
           }
         ],
         "parameters": [
-          {
-            "$ref": "#/parameters/userName"
-          },
           {
             "$ref": "#/parameters/f"
           },
@@ -1086,7 +1063,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/userInvitations"
+              "$ref": "#/definitions/getPortal"
             }
           },
           "default": {
@@ -1098,19 +1075,220 @@
         }
       }
     },
-    "/sharing/rest/community/users/{userName}/tags": {
-      "x-swagger-router-controller": "userTags",
+    "/sharing/rest/portals/resources": {
+      "x-swagger-router-controller": "getPortalResources",
       "get": {
-        "description": "Users tag the content they publish in their portal via the add and update item calls. This resource lists all the tags used by the user along with the number of times the tags have been used",
-        "operationId": "getUserTags",
+        "summary": "Resources",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Resources",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/"
+        },
+        "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported.",
+        "operationId": "getPortalResources",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:userTags" ]
+            "agol_oauth_implicit": [ "read:getPortalResources" ]
           }
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/userName"
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          },
+          {
+            "$ref": "#/parameters/start"
+          },
+          {
+            "$ref": "#/parameters/num"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getPortalResources"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/servers": {
+      "x-swagger-router-controller": "getPortalServers",
+      "get": {
+        "summary": "Servers",
+        "externalDocs": {
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Servers/02r300000218000000/",
+          "description": "Managing your organization > Portals > Servers"
+        },
+        "description": "This resource lists the ArcGIS Server sites that have been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS",
+        "operationId": "getPortalServers",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getPortalServers" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getPortalServers"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/users": {
+      "x-swagger-router-controller": "getPortalUsers",
+      "get": {
+        "summary": "Users",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Users",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Users/02r30000009q000000/"
+        },
+        "description": "Lists all the members of the organization. The start and num paging parameters are supported",
+        "operationId": "getPortalUsers",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getPortalUsers" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          },
+          {
+            "$ref": "#/parameters/token"
+          },
+          {
+            "$ref": "#/parameters/start"
+          },
+          {
+            "$ref": "#/parameters/num"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getUsers"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/regions": {
+      "x-swagger-router-controller": "getPortalRegions",
+      "get": {
+        "summary": "Regions",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Regions",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/"
+        },
+        "description": "Lists the available regions",
+        "operationId": "getPortalRegions",
+        "security": [ ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getPortalRegions"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/languages": {
+      "x-swagger-router-controller": "getPortalLanguages",
+      "get": {
+        "summary": "Languages",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Languages",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/"
+        },
+        "description": "Lists the available languages",
+        "operationId": "getPortalLanguages",
+        "security": [ ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/f"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getPortalLanguages"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sharing/rest/portals/{portalId}/servers/{serverId}": {
+      "x-swagger-router-controller": "getPortalServer",
+      "get": {
+        "summary": "Server",
+        "externalDocs": {
+          "description": "Managing your organization > Portals > Server",
+          "url": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/"
+        },
+        "description": "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS",
+        "operationId": "getPortalServer",
+        "security": [
+          {
+            "agol_oauth_implicit": [ "read:getPortalServer" ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/portalId"
+          },
+          {
+            "$ref": "#/parameters/serverId"
           },
           {
             "$ref": "#/parameters/f"
@@ -1123,7 +1301,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/userTags"
+              "$ref": "#/definitions/getPortalServer"
             }
           },
           "default": {
@@ -1150,54 +1328,83 @@
         }
       }
     },
-    "comment": {
+    "deleteNotification": {
       "type": "object",
-      "description": "Gets details for a particular comment. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Comment/02r300000091000000/",
-      "title": "comment",
+      "description": "The Delete Notification operation (POST only) is available only to the user who receives the notification. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Notification/02r3000000mv000000/",
+      "title": "deleteNotification",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "The ID of the comment"
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
         },
-        "owner": {
+        "notificationId": {
           "type": "string",
-          "description": "The username of the user who submitted the comment"
-        },
-        "created": {
-          "type": "integer",
-          "description": "The date and time the comment was created. Shown in UNIX time"
-        },
-        "comment": {
-          "type": "string",
-          "description": "The comment text"
+          "description": "The ID of the deleted notification"
         }
       },
       "required": [
-        "id",
-        "owner",
-        "created",
-        "comment"
+        "success",
+        "notificationId"
       ]
     },
-    "comments": {
+    "deleteUser": {
       "type": "object",
-      "description": "Lists all comments for an item. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Comments/02r300000088000000/",
-      "title": "comments",
+      "description": "The Delete User operation (POST only) is available only to the user in question or to the administrator of the user's organization. If deleting a user who is part of an organization, their content and groups must be transferred to another member or deleted prior to deleting the user. If the user is not part of an organization, all content and groups of the user must first be deleted. Deleting a user whose identity provider is the Esri Global Account will not delete the user from the Esri Global Account system. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_User/02r3000000mw000000/",
+      "title": "deleteUser",
       "properties": {
-        "comments": {
-          "type": "array",
-          "description": "A JSON array of comment objects. See the response properties for Comment for details",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/comment"
-          }
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the deleted user"
         }
       },
       "required": [
-        "comments"
+        "success",
+        "username"
       ]
     },
-    "coordinate": {
+    "disableUser": {
+      "type": "object",
+      "description": "The Disable operation (POST only) disables login access for the user. It is only available to the administrator of the organization. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Disable/02r30000026m000000/",
+      "title": "disableUser",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "user": {
+          "type": "string",
+          "description": "The username of the user to disable"
+        }
+      },
+      "required": [
+        "success",
+        "user"
+      ]
+    },
+    "enableUser": {
+      "type": "object",
+      "description": "The Enable operation (POST only) enables login access for the user. It is only available to the administrator of the organization. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Enable/02r30000026p000000/",
+      "title": "enableUser",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "user": {
+          "type": "string",
+          "description": "The username of the user to enable"
+        }
+      },
+      "required": [
+        "success",
+        "user"
+      ]
+    },
+    "getCoordinate": {
       "type": "array",
       "description": "Coordinate",
       "title": "coordinate",
@@ -1214,18 +1421,24 @@
         }
       ]
     },
-    "extent": {
-      "type": [ "array", "null" ],
+    "getExtent": {
+      "type": [
+        "array",
+        "null"
+      ],
       "description": "The bounding rectangle of the item. Should always be in WGS84",
       "title": "extent",
       "minLength": 2,
       "maxLength": 2,
       "items": {
-        "$ref": "#/definitions/coordinate"
+        "$ref": "#/definitions/getCoordinate"
       }
     },
-    "folder": {
-      "type": [ "object", "null" ],
+    "getFolder": {
+      "type": [
+        "object",
+        "null"
+      ],
       "description": "The current folder listing the user's items",
       "title": "folder",
       "additionalProperties": false,
@@ -1247,9 +1460,14 @@
           "description": "The date the folder was created. Shown in UNIX time."
         }
       },
-      "required": [ "created", "id", "title", "username" ]
+      "required": [
+        "created",
+        "id",
+        "title",
+        "username"
+      ]
     },
-    "group": {
+    "getGroup": {
       "type": "object",
       "description": "The Group resource represents a group within the portal. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Group/02r30000006m000000/",
       "title": "group",
@@ -1271,11 +1489,17 @@
           "description": "The owner username of the group"
         },
         "description": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The group description"
         },
         "snippet": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The group summary"
         },
         "tags": {
@@ -1287,7 +1511,10 @@
           "uniqueItems": true
         },
         "phone": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The contact information for the group"
         },
         "sortField": {
@@ -1297,7 +1524,11 @@
         "sortOrder": {
           "type": "string",
           "description": "The sort order, either descending or ascending",
-          "enum": [ "asc", "desc" ]
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "pattern": "asc|desc"
         },
         "isViewOnly": {
           "type": "boolean",
@@ -1308,7 +1539,10 @@
           "description": "Boolean value indicating whether marked in favorites"
         },
         "thumbnail": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The URL to the thumbnail used for the group. All group thumbnails are relative to the URL: http://<community-url>/groups/<groupId>/info"
         },
         "created": {
@@ -1322,10 +1556,18 @@
         "access": {
           "type": "string",
           "description": "The access privileges of the group that determine who can see and access the group. Can be: private, org, or public",
-          "enum": [ "private", "org", "public" ]
+          "enum": [
+            "private",
+            "org",
+            "public"
+          ],
+          "pattern": "private|org|public"
         },
         "userMembership": {
-          "type": [ "object", "null" ],
+          "type": [
+            "object",
+            "null"
+          ],
           "description": "If the request is made by an authenticated user, a JSON object is returned containing information about the user's access to the group. This includes the username of the calling user, the memberType, which specifies the type of membership the user has in the group (owner, member, admin, none), and the applications (number of requests to join the group) count available to admins and owners",
           "properties": {
             "username": {
@@ -1335,14 +1577,24 @@
             "memberType": {
               "type": "string",
               "description": "specifies the type of membership the user has in the group (owner, member, admin, none)",
-              "enum": [ "owner", "member", "admin", "none" ]
+              "enum": [
+                "owner",
+                "member",
+                "admin",
+                "none"
+              ],
+              "pattern": "owner|member|admin|none"
             },
             "applications": {
               "type": "integer",
               "description": "Number of requests to join the group available to admins and owners."
             }
           },
-          "required": [ "applications", "memberType", "username" ]
+          "required": [
+            "applications",
+            "memberType",
+            "username"
+          ]
         }
       },
       "required": [
@@ -1365,7 +1617,7 @@
         "userMembership"
       ]
     },
-    "groupApplication": {
+    "getGroupApplication": {
       "type": "object",
       "description": "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Group_Application/02r30000006r000000/",
       "title": "groupApplication",
@@ -1383,9 +1635,13 @@
           "description": "The date the application was received in UNIX time in milliseconds"
         }
       },
-      "required": [ "fullname", "received", "username" ]
+      "required": [
+        "fullname",
+        "received",
+        "username"
+      ]
     },
-    "groupApplications": {
+    "getGroupApplications": {
       "type": "object",
       "description": "Lists the group applications for the given group. Available to administrators of the group or administrators of an organization if the group is part of one. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Group_Applications/02r300000068000000/",
       "title": "groupApplications",
@@ -1395,13 +1651,15 @@
           "description": "A JSON array of application objects. See Group Application for property information",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/groupApplication"
+            "$ref": "#/definitions/getGroupApplication"
           }
         }
       },
-      "required": [ "applications" ]
+      "required": [
+        "applications"
+      ]
     },
-    "groupContent": {
+    "getGroupContent": {
       "type": "object",
       "description": "The group's content provides access to the items that are shared with the group. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Group_Content/02r300000081000000/",
       "title": "groupContent",
@@ -1411,45 +1669,15 @@
           "description": "A JSON array of item objects. See Item for response properties for more details",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/item"
+            "$ref": "#/definitions/getItem"
           }
         }
       },
-      "required": [ "items" ]
+      "required": [
+        "items"
+      ]
     },
-    "groups": {
-      "type": "object",
-      "description": "Lists the groups of which the item is a part. Only shows the groups that the calling user can access http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Groups/02r30000009p000000/",
-      "title": "groups",
-      "properties": {
-        "admin": {
-          "type": "array",
-          "description": "Groups which user is an administrator. This is a JSON Array of group objects. See Group for possible response properties",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/group"
-          }
-        },
-        "member": {
-          "type": "array",
-          "description": "Groups which user is a member",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/group"
-          }
-        },
-        "other": {
-          "type": "array",
-          "description": "Other groups that are public or shared to the user's organization but that the user is not a member of",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/group"
-          }
-        }
-      },
-      "required": [ "admin", "member", "other" ]
-    },
-    "groupUsers": {
+    "getGroupUsers": {
       "type": "object",
       "description": "Lists the users, owner, and administrators of a given group. Only available to members or administrators of the group http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Group_Users/02r30000006p000000/",
       "title": "groupUsers",
@@ -1475,9 +1703,13 @@
           }
         }
       },
-      "required": [ "owner", "admins", "users" ]
+      "required": [
+        "owner",
+        "admins",
+        "users"
+      ]
     },
-    "item": {
+    "getItem": {
       "type": "object",
       "description": "An item (a unit of content) in the portal. Each item has a unique identifier and a well known URL that is independent of the user owning the item. An item can have associated binary or textual data that's available via the item data resource. For example, an item of type Map Package returns the actual bits corresponding to the map package via the item data resource. The numViews is incremented when an item is opened. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item/02r30000007w000000/",
       "title": "item",
@@ -1499,11 +1731,17 @@
           "description": "The date the folder was last modified. Shown in UNIX time"
         },
         "guid": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Unique global ID"
         },
         "name": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The file name of the item for file types. Read-only"
         },
         "title": {
@@ -1601,7 +1839,10 @@
           "uniqueItems": true
         },
         "description": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Item's description"
         },
         "tags": {
@@ -1613,19 +1854,31 @@
           "uniqueItems": true
         },
         "snippet": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "A short summary description of the item"
         },
         "thumbnail": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The URL to the thumbnail used for the item. Relative to Item's URL"
         },
         "largeThumbnail": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Primarily applies to thumbnails associated with an application. The URL to the thumbnail used for the application. Relative to Item's URL"
         },
         "banner": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Primarily applies to the banner associated with an application. The URL to the banner used for the application. Relative to Item's URL"
         },
         "screenshots": {
@@ -1636,18 +1889,27 @@
           }
         },
         "extent": {
-          "$ref": "#/definitions/extent"
+          "$ref": "#/definitions/getExtent"
         },
         "spatialReference": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The coordinate system of the item"
         },
         "accessInformation": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Information on the source of the item and its copyright status"
         },
         "licenseInfo": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Any license information or restrictions"
         },
         "culture": {
@@ -1662,14 +1924,23 @@
           }
         },
         "url": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The URL for the resource represented by the item. Applies only to items that represent web-accessible resources such as map services",
           "format": "uri"
         },
         "access": {
           "type": "string",
           "description": "Indicates the level of access to this item: private, shared, org, or public",
-          "enum": [ "private", "shared", "org", "public" ]
+          "enum": [
+            "private",
+            "shared",
+            "org",
+            "public"
+          ],
+          "pattern": "private|shared|org|public"
         },
         "size": {
           "type": "integer",
@@ -1742,39 +2013,109 @@
         "avgRating"
       ]
     },
-    "language": {
+    "getItemComment": {
       "type": "object",
-      "description": "Avaliable language. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
-      "title": "language",
+      "description": "Gets details for a particular comment. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Comment/02r300000091000000/",
+      "title": "comment",
       "properties": {
-        "language": {
+        "id": {
           "type": "string",
-          "description": "Language's name"
+          "description": "The ID of the comment"
         },
-        "culture": {
+        "owner": {
           "type": "string",
-          "description": "Language's culture"
+          "description": "The username of the user who submitted the comment"
         },
-        "localizedName": {
+        "created": {
+          "type": "integer",
+          "description": "The date and time the comment was created. Shown in UNIX time"
+        },
+        "comment": {
           "type": "string",
-          "description": "Language's localized name"
+          "description": "The comment text"
         }
       },
       "required": [
-        "language",
-        "culture",
-        "localizedName"
+        "id",
+        "owner",
+        "created",
+        "comment"
       ]
     },
-    "languages": {
-      "type": "array",
-      "description": "Lists the available languages. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
-      "title": "languages",
-      "items": {
-        "$ref": "#/definitions/language"
-      }
+    "getItemComments": {
+      "type": "object",
+      "description": "Lists all comments for an item. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Comments/02r300000088000000/",
+      "title": "comments",
+      "properties": {
+        "comments": {
+          "type": "array",
+          "description": "A JSON array of comment objects. See the response properties for Comment for details",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getItemComment"
+          }
+        }
+      },
+      "required": [
+        "comments"
+      ]
     },
-    "notification": {
+    "getItemGroups": {
+      "type": "object",
+      "description": "Lists the groups of which the item is a part. Only shows the groups that the calling user can access http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Groups/02r30000009p000000/",
+      "title": "groups",
+      "properties": {
+        "admin": {
+          "type": "array",
+          "description": "Groups which user is an administrator. This is a JSON Array of group objects. See Group for possible response properties",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getGroup"
+          }
+        },
+        "member": {
+          "type": "array",
+          "description": "Groups which user is a member",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getGroup"
+          }
+        },
+        "other": {
+          "type": "array",
+          "description": "Other groups that are public or shared to the user's organization but that the user is not a member of",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getGroup"
+          }
+        }
+      },
+      "required": [
+        "admin",
+        "member",
+        "other"
+      ]
+    },
+    "getItemRating": {
+      "type": "object",
+      "description": "Returns the rating given by the current user to the item, if any. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Rating/02r300000098000000/",
+      "title": "rating",
+      "properties": {
+        "rating": {
+          "type": "integer",
+          "description": "The rating given to the item by the calling user"
+        },
+        "created": {
+          "type": "integer",
+          "description": "The date and time the comment was created. Shown in UNIX time"
+        }
+      },
+      "required": [
+        "rating",
+        "created"
+      ]
+    },
+    "getNotification": {
       "type": "object",
       "description": " An individual notification for the given user that can be of different types. Available only to the user recipient of the notification. In the JSON response for a notification, the data property will vary based on the notification type. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Notification/02r30000006t000000/",
       "title": "notification",
@@ -1793,8 +2134,7 @@
             "user_invite",
             "user_invitation_accepted",
             "user_invitation_declined"
-          ],
-          "pattern": "group_join|group_application_accepted|group_application_declined|user_invite|user_invitation_accepted|user_invitation_declined"
+          ]
         },
         "target": {
           "type": "string",
@@ -1803,7 +2143,10 @@
         "targetType": {
           "type": "string",
           "description": "Currently, only \"user\" is acceptable, but in the future, there may be other target types for notifications",
-          "enum": [ "user" ]
+          "enum": [
+            "user"
+          ],
+          "pattern": "user"
         },
         "received": {
           "type": "integer",
@@ -1822,7 +2165,10 @@
               "description": "Group title"
             }
           },
-          "required": [ "groupId", "groupTitle" ]
+          "required": [
+            "groupId",
+            "groupTitle"
+          ]
         }
       },
       "required": [
@@ -1834,7 +2180,7 @@
         "data"
       ]
     },
-    "notifications": {
+    "getNotifications": {
       "type": "object",
       "description": "The list of notifications available for the given user. These can have different types as described in the documentation for the Notification resource. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Notifications/02r30000006s000000/",
       "title": "notifications",
@@ -1844,7 +2190,7 @@
           "description": "JSON array of notification objects. See Notification for the properties of an invitation",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/notification"
+            "$ref": "#/definitions/getNotification"
           }
         }
       },
@@ -1852,7 +2198,21 @@
         "notifications"
       ]
     },
-    "portal": {
+    "getOrgRoot": {
+      "type": "object",
+      "description": "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Root/02r30000009t000000/",
+      "title": "root",
+      "properties": {
+        "currentVersion": {
+          "type": "string",
+          "description": "The release version for this portal"
+        }
+      },
+      "required": [
+        "currentVersion"
+      ]
+    },
+    "getPortal": {
       "type": "object",
       "description": "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
       "title": "portal",
@@ -1860,18 +2220,23 @@
         "access": {
           "type": "string",
           "description": "Indicates the level of access to your organization for anonymous users. If set to private, only members of the organization will be able to access your site. public allows public access",
-          "enum": [ "private", "public" ],
-          "pattern": "private|public"
+          "enum": [
+            "private",
+            "public"
+          ]
         },
         "allSSL": {
           "type": "boolean",
           "description": "Indicates if the organization is using SSL. If true, all calls made against resources that belong to the organization will require SSL. false is the default."
         },
         "appInfo": {
-          "$ref": "#/definitions/portalAppInfo"
+          "$ref": "#/definitions/getPortalAppInfo"
         },
         "backgroundImage": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The background image that displays behind all other components on the home page. Accept the default background image, specify a URL for a custom background image, or specify that no background image will display"
         },
         "basemapGalleryGroupQuery": {
@@ -1942,14 +2307,28 @@
         "defaultBaseMap": {
           "type": "string",
           "description": "The default basemap displayed in the map viewer",
-          "enum": [ "streets", "satellite", "hybrid", "topo", "gray", "dark-gray", "oceans", "national-geographic", "terrain", "osm" ],
+          "enum": [
+            "streets",
+            "satellite",
+            "hybrid",
+            "topo",
+            "gray",
+            "dark-gray",
+            "oceans",
+            "national-geographic",
+            "terrain",
+            "osm"
+          ],
           "pattern": "streets|satellite|hybrid|topo|gray|dark-gray|oceans|national-geographic|terrain|osm"
         },
         "defaultExtent": {
-          "$ref": "#/definitions/extent"
+          "$ref": "#/definitions/getExtent"
         },
         "description": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The description of the organization"
         },
         "featuredGroups": {
@@ -1958,11 +2337,14 @@
           "title": "featuredGroups",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/portalFeaturedGroup"
+            "$ref": "#/definitions/getPortalFeaturedGroup"
           }
         },
         "featuredItemsGroupQuery": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The query that identifies the group containing features items for the gallery. Set a Group ID or, if null, then the most viewed items in your organization are displayed in the gallery"
         },
         "helpBase": {
@@ -1986,19 +2368,23 @@
                   },
                   "northLat": {
                     "type": "string",
-                    "description": "Ymax"
+                    "description": "Ymax",
+                    "pattern": "Ymax"
                   },
                   "southLat": {
                     "type": "string",
-                    "description": "Ymin"
+                    "description": "Ymin",
+                    "pattern": "Ymin"
                   },
                   "eastLon": {
                     "type": "string",
-                    "description": "Xmax"
+                    "description": "Xmax",
+                    "pattern": "Xmax"
                   },
                   "westLon": {
                     "type": "string",
-                    "description": "Xmin"
+                    "description": "Xmin",
+                    "pattern": "Xmin"
                   }
                 },
                 "required": [
@@ -2217,14 +2603,19 @@
         },
         "httpPort": {
           "type": "integer",
-          "description": "The port used by the portal for HTTP communication"
+          "description": "The port used by the portal for HTTP communication",
+          "pattern": "80"
         },
         "httpsPort": {
           "type": "integer",
-          "description": "The port used by the portal for HTTPS communication"
+          "description": "The port used by the portal for HTTPS communication",
+          "pattern": "443"
         },
         "id": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Organization ID. If null, then this is the default portal for anonymous and non-organizational users"
         },
         "ipCntryCode": {
@@ -2259,7 +2650,10 @@
         "portalMode": {
           "type": "string",
           "description": "Identifies if multitenant or singletenant",
-          "enum": [ "multitenant", "singletenant" ],
+          "enum": [
+            "multitenant",
+            "singletenant"
+          ],
           "pattern": "multitenant|singletenant"
         },
         "portalName": {
@@ -2293,7 +2687,10 @@
           }
         },
         "portalThumbnail": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The URL to the thumbnail of the portal"
         },
         "region": {
@@ -2331,7 +2728,10 @@
         "units": {
           "type": "string",
           "description": "Sets the units of measure for the organization's users. The user default is derived from the organization's Region. Set units to english for US standards or metric",
-          "enum": [ "english", "metric" ],
+          "enum": [
+            "english",
+            "metric"
+          ],
           "pattern": "english|metric"
         },
         "urlKey": {
@@ -2343,7 +2743,7 @@
           "description": "If true, only simple where clauses that are complaint with SQL92 can be used when querying layers and tables. The recommended security setting is true"
         },
         "user": {
-          "$ref": "#/definitions/user"
+          "$ref": "#/definitions/getUser"
         }
       },
       "required": [
@@ -2404,9 +2804,9 @@
         "user"
       ]
     },
-    "portalAppInfo": {
+    "getPortalAppInfo": {
       "type": "object",
-      "description": "Information about the Application through which this resource was accessed. This information is based on the token used to acces this resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
+      "description": "Information about the Application through which this resource was accessed. This information is based on the token used to access this resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
       "title": "portalAppInfo",
       "properties": {
         "appID": {
@@ -2438,7 +2838,7 @@
         "appTitle"
       ]
     },
-    "portalFeaturedGroup": {
+    "getPortalFeaturedGroup": {
       "type": "object",
       "description": "The featured groups for the organization. These are the groups that will be highlighted on the Groups page. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
       "title": "portalFeaturedGroup",
@@ -2457,28 +2857,41 @@
         "title"
       ]
     },
-    "rating": {
+    "getPortalLanguage": {
       "type": "object",
-      "description": "Returns the rating given by the current user to the item, if any. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Item_Rating/02r300000098000000/",
-      "title": "rating",
+      "description": "Available language. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
+      "title": "language",
       "properties": {
-        "rating": {
-          "type": "integer",
-          "description": "The rating given to the item by the calling user"
+        "language": {
+          "type": "string",
+          "description": "Language's name"
         },
-        "created": {
-          "type": "integer",
-          "description": "The date and time the comment was created. Shown in UNIX time"
+        "culture": {
+          "type": "string",
+          "description": "Language's culture"
+        },
+        "localizedName": {
+          "type": "string",
+          "description": "Language's localized name"
         }
       },
       "required": [
-        "rating",
-        "created"
+        "language",
+        "culture",
+        "localizedName"
       ]
     },
-    "region": {
+    "getPortalLanguages": {
+      "type": "array",
+      "description": "Lists the available languages. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
+      "title": "languages",
+      "items": {
+        "$ref": "#/definitions/getPortalLanguage"
+      }
+    },
+    "getPortalRegion": {
       "type": "object",
-      "description": "Avaliable region. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
+      "description": "Available region. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
       "title": "region",
       "properties": {
         "name": {
@@ -2500,15 +2913,144 @@
         "localizedName"
       ]
     },
-    "regions": {
+    "getPortalRegions": {
       "type": "array",
       "description": "Lists the available regions. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
       "title": "regions",
       "items": {
-        "$ref": "#/definitions/region"
+        "$ref": "#/definitions/getPortalRegion"
       }
     },
-    "registeredApp": {
+    "getPortalResource": {
+      "type": "object",
+      "description": "resource objects that contain the key, size, and created date of the resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
+      "title": "resource",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The ID of the comment"
+        },
+        "size": {
+          "type": "integer",
+          "description": "Size of the resource"
+        },
+        "created": {
+          "type": "integer",
+          "description": "The date and time the resource was created. Shown in UNIX time"
+        }
+      },
+      "required": [
+        "key",
+        "size",
+        "created"
+      ]
+    },
+    "getPortalResources": {
+      "type": "object",
+      "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
+      "title": "resources",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "The total number of results found"
+        },
+        "start": {
+          "type": "integer",
+          "description": "The number of the first entry in the result set response. The index number is 1-based"
+        },
+        "num": {
+          "type": "integer",
+          "description": "The number of results included in this result set response"
+        },
+        "nextStart": {
+          "type": "integer",
+          "description": "The next entry index if the current result set doesn't contain all results"
+        },
+        "resources": {
+          "type": "array",
+          "description": "A JSON array of resource objects that contain the key, size, and created date of the resource",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getPortalResource"
+          }
+        }
+      },
+      "required": [
+        "total",
+        "start",
+        "num",
+        "nextStart",
+        "resources"
+      ]
+    },
+    "getPortalServer": {
+      "type": "object",
+      "description": "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/",
+      "title": "server",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the ArcGIS Server site"
+        },
+        "name": {
+          "type": "string",
+          "description": "The fully qualified name of the machine hosting the ArcGIS Server site, followed by the port"
+        },
+        "adminUrl": {
+          "type": "string",
+          "description": "The administrative URL of the ArcGIS Server site, using the fully qualified name of the machine",
+          "format": "uri"
+        },
+        "url": {
+          "type": "string",
+          "description": "The externally visible URL of the ArcGIS Server site, using the fully qualified name of the machine",
+          "format": "uri"
+        },
+        "isHosted": {
+          "type": "boolean",
+          "description": "A Boolean property denoting whether the ArcGIS Server site is allowed to host services for the portal (true) or is not allowed to host services (false)"
+        },
+        "serverKey": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The key returned when the Register Server operation is called for this server. The key is only displayed once; hence, this property usually returns null"
+        },
+        "serverType": {
+          "type": "string",
+          "description": "The type of server being registered with the portal. For example: ArcGIS"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "adminUrl",
+        "url",
+        "isHosted",
+        "serverKey",
+        "serverType"
+      ]
+    },
+    "getPortalServers": {
+      "type": "object",
+      "description": "This resource lists the ArcGIS Server sites that have been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Servers/02r300000218000000/",
+      "title": "servers",
+      "properties": {
+        "servers": {
+          "type": "array",
+          "description": "An array of JSON objects representing ArcGIS Server sites",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getPortalServer"
+          }
+        }
+      },
+      "required": [
+        "servers"
+      ]
+    },
+    "getRegisteredAppInfo": {
       "type": "object",
       "description": "An app registered with the portal. An app item can be registered by invoking the register app operation. Every registered app gets an App ID and App Secret which in OAuth speak are known as client_id and client_secret respectively. The app owner has access to the registered app resource. This would include the organization administrator as well. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Registered_App/02r30000026v000000/",
       "title": "registeredApp",
@@ -2528,7 +3070,12 @@
         "appType": {
           "type": "string",
           "description": "The type of app that was registered indicating whether it's a browser app, native app, server app or a multiple interface app",
-          "enum": [ "browser", "native", "server", "multiple" ],
+          "enum": [
+            "browser",
+            "native",
+            "server",
+            "multiple"
+          ],
           "pattern": "browser|native|server|multiple"
         },
         "redirect_uris": {
@@ -2557,7 +3104,7 @@
         "modified"
       ]
     },
-    "relatedItems": {
+    "getRelatedItems": {
       "type": "object",
       "description": "Gets all the related items of a certain relationship type for that item. An optional direction can be specified if the direction of the relationship is ambiguous. Otherwise, the service will try to infer it. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Related_Items/02r300000085000000/",
       "title": "Related Items",
@@ -2571,7 +3118,7 @@
           "description": "A JSON array of related item objects",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/item"
+            "$ref": "#/definitions/getItem"
           }
         }
       },
@@ -2580,147 +3127,7 @@
         "total"
       ]
     },
-    "resource": {
-      "type": "object",
-      "description": "resource objects that contain the key, size, and created date of the resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
-      "title": "resource",
-      "properties": {
-        "key": {
-          "type": "string",
-          "description": "The ID of the comment"
-        },
-        "size": {
-          "type": "integer",
-          "description": "Size of the resource"
-        },
-        "created": {
-          "type": "integer",
-          "description": "The date and time the resource was created. Shown in UNIX time"
-        }
-      },
-      "required": [
-        "key",
-        "size",
-        "created"
-      ]
-    },
-    "resources": {
-      "type": "object",
-      "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
-      "title": "resources",
-      "properties": {
-        "total": {
-          "type": "integer",
-          "description": "The total number of results found"
-        },
-        "start": {
-          "type": "integer",
-          "description": "The number of the first entry in the result set response. The index number is 1-based"
-        },
-        "num": {
-          "type": "integer",
-          "description": "The number of results included in this result set response"
-        },
-        "nextStart": {
-          "type": "integer",
-          "description": "The next entry index if the current result set doesn't contain all results"
-        },
-        "resources": {
-          "type": "array",
-          "description": "A JSON array of resource objects that contain the key, size, and created date of the resource",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/resource"
-          }
-        }
-      },
-      "required": [
-        "total",
-        "start",
-        "num",
-        "nextStart",
-        "resources"
-      ]
-    },
-    "root": {
-      "type": "object",
-      "description": "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Root/02r30000009t000000/",
-      "title": "root",
-      "properties": {
-        "currentVersion": {
-          "type": "string",
-          "description": "The release version for this portal"
-        }
-      },
-      "required": [
-        "currentVersion"
-      ]
-    },
-    "server": {
-      "type": "object",
-      "description": "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/",
-      "title": "server",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "ID of the ArcGIS Server site"
-        },
-        "name": {
-          "type": "string",
-          "description": "The fully qualified name of the machine hosting the ArcGIS Server site, followed by the port"
-        },
-        "adminUrl": {
-          "type": "string",
-          "description": "The administrative URL of the ArcGIS Server site, using the fully qualified name of the machine",
-          "format": "uri"
-        },
-        "url": {
-          "type": "string",
-          "description": "The externally visible URL of the ArcGIS Server site, using the fully qualified name of the machine",
-          "format": "uri"
-        },
-        "isHosted": {
-          "type": "boolean",
-          "description": "A Boolean property denoting whether the ArcGIS Server site is allowed to host services for the portal (true) or is not allowed to host services (false)"
-        },
-        "serverKey": {
-          "type": [ "string", "null" ],
-          "description": "The key returned when the Register Server operation is called for this server. The key is only displayed once; hence, this property usually returns null"
-        },
-        "serverType": {
-          "type": "string",
-          "description": "The type of server being registered with the portal. For example: ArcGIS"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "adminUrl",
-        "url",
-        "isHosted",
-        "serverKey",
-        "serverType"
-      ]
-    },
-    "servers": {
-      "type": "object",
-      "description": "This resource lists the ArcGIS Server sites that have been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Servers/02r300000218000000/",
-      "title": "servers",
-      "properties": {
-        "servers": {
-          "type": "array",
-          "description": "An array of JSON objects representing ArcGIS Server sites",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/server"
-          }
-        }
-      },
-      "required": [
-        "servers"
-      ]
-    },
-    "user": {
+    "getUser": {
       "type": "object",
       "description": "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to private. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User/02r3000000m2000000/",
       "title": "user",
@@ -2736,8 +3143,10 @@
         "preferredView": {
           "type": "string",
           "description": "The user's preferred view for content, either web or GIS",
-          "enum": [ "web", "GIS" ],
-          "pattern": "web|GIS"
+          "enum": [
+            "Web",
+            "GIS"
+          ]
         },
         "description": {
           "type": "string",
@@ -2748,7 +3157,10 @@
           "description": "The user's e-mail address"
         },
         "idpUsername": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The original username if using enterprise logins"
         },
         "favGroupId": {
@@ -2762,8 +3174,11 @@
         "access": {
           "type": "string",
           "description": "Indicates the level of access of the user: private, org, or public. If private, the user descriptive information will not be available to others nor will the username be searchable",
-          "enum": [ "private", "org", "public" ],
-          "pattern": "private|org|public"
+          "enum": [
+            "private",
+            "org",
+            "public"
+          ]
         },
         "storageusage": {
           "type": "integer",
@@ -2780,8 +3195,11 @@
         "role": {
           "type": "string",
           "description": "Defines the user's role in the organization: administrator (org_admin), publisher (org_publisher), information worker (org_user), or custom (<custom_role_name>)",
-          "enum": [ "org_admin", "org_publisher", "org_user" ],
-          "pattern": "org_admin|org_publisher|org_user"
+          "enum": [
+            "org_admin",
+            "org_publisher",
+            "org_user"
+          ]
         },
         "disabled": {
           "type": "boolean",
@@ -2790,8 +3208,10 @@
         "units": {
           "type": "string",
           "description": "User-defined units for measurement",
-          "enum": [ "english", "metric" ],
-          "pattern": "english|metric"
+          "enum": [
+            "english",
+            "metric"
+          ]
         },
         "tags": {
           "type": "array",
@@ -2810,7 +3230,10 @@
           "description": "The user preferred region, used to set the featured maps on the home page, content in the gallery, and the default extent of new maps in the Viewer"
         },
         "thumbnail": {
-          "type": [ "string", "null" ],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "The file name of the thumbnail used for the user. All user thumbnails are relative to the URL http://<community-url>/users/<userName>/info"
         },
         "created": {
@@ -2826,14 +3249,18 @@
           "description": "A JSON array of groups the user belongs to. See Group for properties of a group",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/group"
+            "$ref": "#/definitions/getGroup"
           }
         },
         "provider": {
           "type": "string",
           "description": "The identity provider for the organization. Either arcgis (for built-in users) or enterprise (for external users managed by an enterprise identity store). This was added at Portal for ArcGIS 10.3.1",
-          "enum": [ "arcgis", "enterprise" ],
-          "pattern": "arcgis|enterprise"
+          "enum": [
+            "arcgis",
+            "enterprise",
+            "facebook",
+            "google"
+          ]
         }
       },
       "required": [
@@ -2862,7 +3289,7 @@
         "provider"
       ]
     },
-    "userContent": {
+    "getUserContent": {
       "type": "object",
       "description": "The user's content are items either in the home folder for the user, e.g. /content/users/<username>, or in a subfolder of the home folder with the given folder ID. Multilevel folders are not supported. You can also see the Quick reference topic for additional information on this. Items in a folder are stored by reference and are not physically in a folder. Rather, they're stored as links to the original item, e.g. /content/items/<itemId>. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User_Content/02r30000007p000000/",
       "title": "userContent",
@@ -2872,20 +3299,24 @@
           "description": "The username of the content"
         },
         "currentFolder": {
-          "$ref": "#/definitions/folder"
+          "$ref": "#/definitions/getFolder"
         },
         "items": {
           "type": "array",
           "description": "The list of the user's items. See Item for response properties for more details",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/item"
+            "$ref": "#/definitions/getItem"
           }
         }
       },
-      "required": [ "username", "currentFolder", "items" ]
+      "required": [
+        "username",
+        "currentFolder",
+        "items"
+      ]
     },
-    "userInvitation": {
+    "getUserInvitation": {
       "type": "object",
       "description": " An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User_Invitation/02r3000000mr000000/",
       "title": "userInvitation",
@@ -2897,7 +3328,9 @@
         "targetType": {
           "type": "string",
           "description": "The type of invitation. For now, this will only be set to group, but other types may be added in the future",
-          "enum": [ "group" ],
+          "enum": [
+            "group"
+          ],
           "pattern": "group"
         },
         "targetId": {
@@ -2911,7 +3344,10 @@
         "role": {
           "type": "string",
           "description": "The role that the invitee will have in the group, either group_member or group_admin",
-          "enum": [ "group_member", "group_admin" ],
+          "enum": [
+            "group_member",
+            "group_admin"
+          ],
           "pattern": "group_member|group_admin"
         },
         "expiration": {
@@ -2921,7 +3357,9 @@
         "type": {
           "type": "string",
           "description": "For now, always set to \"user.\" In the future, the type may include other types of invitations",
-          "enum": [ "user" ],
+          "enum": [
+            "user"
+          ],
           "pattern": "user"
         },
         "created": {
@@ -2933,7 +3371,7 @@
           "description": "The name of the user receiving the invitation if the type is set to \"user."
         },
         "fromUsername": {
-          "type": [ "object", "null" ],
+          "type": "object",
           "description": "A JSON object about the user who sent the invitation. This includes their username and fullname",
           "properties": {
             "username": {
@@ -2945,10 +3383,13 @@
               "description": "The full name of the user who sent the invitation"
             }
           },
-          "required": [ "username", "fullname" ]
+          "required": [
+            "username",
+            "fullname"
+          ]
         },
         "group": {
-          "$ref": "#/definitions/group"
+          "$ref": "#/definitions/getGroup"
         }
       },
       "required": [
@@ -2965,7 +3406,7 @@
         "group"
       ]
     },
-    "userInvitations": {
+    "getUserInvitations": {
       "type": "object",
       "description": "Shows the invitations sent to the authenticated user. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User_Invitations/02r3000000m7000000/",
       "title": "userInvitations",
@@ -2975,7 +3416,7 @@
           "description": "A JSON array of invitation objects. For details, see the response properties for User Invitation",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/userInvitation"
+            "$ref": "#/definitions/getUserInvitation"
           }
         }
       },
@@ -2983,7 +3424,7 @@
         "userInvitations"
       ]
     },
-    "users": {
+    "getUsers": {
       "type": "object",
       "description": "Lists all the members of the organization. The start and num paging parameters are supported. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Users/02r30000009q000000/",
       "title": "users",
@@ -3009,7 +3450,7 @@
           "description": "A JSON array of user objects. See User for possible response properties",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/user"
+            "$ref": "#/definitions/getUser"
           }
         }
       },
@@ -3021,7 +3462,7 @@
         "users"
       ]
     },
-    "userTag": {
+    "getUserTag": {
       "type": "object",
       "description": "User tag. Object in the userTags array. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User_Tags/02r3000000m9000000/",
       "title": "userTag",
@@ -3040,7 +3481,7 @@
         "count"
       ]
     },
-    "userTags": {
+    "getUserTags": {
       "type": "object",
       "description": "Users tag the content they publish in their portal via the add and update item calls. This resource lists all the tags used by the user along with the number of times the tags have been used. http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/User_Tags/02r3000000m9000000/",
       "title": "userTags",
@@ -3050,12 +3491,165 @@
           "description": "Array of tag objects. Each tag object contains a tag property with the name of the tag along with a count that reports the number of times the tag was used",
           "minLength": 0,
           "items": {
-            "$ref": "#/definitions/userTag"
+            "$ref": "#/definitions/getUserTag"
           }
         }
       },
       "required": [
         "tags"
+      ]
+    },
+    "searchUsers": {
+      "type": "object",
+      "description": "The User Search operation searches for users in the portal. The search index is updated whenever users are created, updated, or deleted. There can be a lag between the time that the user is updated and the time when it's reflected in the search results. The results only contain users that the calling user has permissions to see. Users can control this visibility by changing the access property of their user. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves. http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Search/02r3000000m6000000/",
+      "title": "userSearch",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The query string searched"
+        },
+        "total": {
+          "type": "number",
+          "description": "The total number of results found for the whole query. The number of query results is limited to 10000",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "start": {
+          "type": "number",
+          "description": "The number of the first entry in the result set for this response. The index number is 1-based",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "num": {
+          "type": "number",
+          "description": "The number of results included in the result set for this response",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "nextStart": {
+          "type": "number",
+          "description": "The next entry index if the current result set doesn't contain all results",
+          "minimum": -1,
+          "maximum": 10000
+        },
+        "results": {
+          "type": "array",
+          "description": "A JSON array of user objects. See the response properties for User",
+          "minItems": 0,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/searchUsersResultItem"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "query",
+        "total",
+        "start",
+        "num",
+        "nextStart",
+        "results"
+      ]
+    },
+    "searchUsersResultItem": {
+      "type": "object",
+      "description": "Result item of searching for Users http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Search/02r3000000m6000000/",
+      "title": "searchUsersResultItem",
+      "properties": {
+        "created": {
+          "type": "integer",
+          "description": "The date the user was created. Shown in UNIX time"
+        },
+        "culture": {
+          "type": "string",
+          "description": "The item locale information (language and country)"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the user"
+        },
+        "fullname": {
+          "type": "string",
+          "description": "The user's full name"
+        },
+        "modified": {
+          "type": "integer",
+          "description": "The date the user was last modified. Shown in UNIX time"
+        },
+        "provider": {
+          "type": "string",
+          "description": "The identity provider for the organization. Either arcgis (for built-in users) or enterprise (for external users managed by an enterprise identity store). This was added at Portal for ArcGIS 10.3.1",
+          "enum": [
+            "arcgis",
+            "enterprise",
+            "facebook",
+            "google"
+          ]
+        },
+        "region": {
+          "type": "string",
+          "description": "The user preferred region, used to set the featured maps on the home page, content in the gallery, and the default extent of new maps in the Viewer"
+        },
+        "tags": {
+          "type": "array",
+          "description": "User-defined tags that describe the user",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "thumbnail": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The file name of the thumbnail used for the user. All user thumbnails are relative to the URL http://<community-url>/users/<userName>/info"
+        },
+        "units": {
+          "type": "string",
+          "description": "User-defined units for measurement",
+          "enum": [
+            "english",
+            "metric"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the given user"
+        }
+      },
+      "required": [
+        "created",
+        "culture",
+        "description",
+        "fullname",
+        "modified",
+        "provider",
+        "region",
+        "tags",
+        "thumbnail",
+        "units",
+        "username"
+      ]
+    },
+    "updateUser": {
+      "type": "object",
+      "description": "The Update User operation (POST only) modifies properties such as description, preferred view, tags, access, and thumbnail. The user name cannot be modified. For the 'ecas' identity provider, password, e-mail, and full name must be modified by editing your Esri Global Account. For the 'arcgis' identity provider, password, full name, security question, and security answer can be updated with Update User. Update User is available only to the user or to the administrator of the user's organization. Only the properties that are to be updated need to be specified in the request. Properties not specified will not be affected. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Update_User/02r3000000m0000000/",
+      "title": "updateUser",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the modified user"
+        }
+      },
+      "required": [
+        "success",
+        "username"
       ]
     }
   }

@@ -14,14 +14,16 @@
   "dependencies": {
     "express": "^4.12.3",
     "swagger-express-mw": "^0.1.0",
-    "agol-data-faker": "../agol-data-faker"
+    "agol-data-faker": "^0.3.0"
   },
   "devDependencies": {
     "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "supertest": "^1.0.0",
+    "json2yaml": "^1.0.3"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "swagger project test",
+    "convert": "json2yaml api/swagger/swagger.json > api/swagger/swagger.yaml"
   }
 }
