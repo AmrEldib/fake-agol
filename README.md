@@ -1,1 +1,5 @@
-# Skeleton project for Swagger
+# fake-agol
+
+Node.js Server that simulates ArcGIS Online REST API
+
+
