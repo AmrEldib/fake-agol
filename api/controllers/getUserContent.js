@@ -22,7 +22,7 @@ module.exports = {
 function getUserContent(req, res) {
   // parameters/variables defined in the Swagger document can be referenced using:
   // req.swagger.params.{parameter_name}.value
-  agolDataFaker.generateFakeDataForSchema('userContent', function (fakeData) {
+  agolDataFaker.generateFakeDataForSchema('getUserContent').then(function (fakeData) {
     // this sends back a JSON response which is a single string
     res.json(fakeData);
   });

@@ -11,7 +11,7 @@ var agolDataFaker = require('agol-data-faker');
  Recommended: use HTTP+modelName as your operationId. Ex: getItemComments for the GET request to access comments on an item.
  */
 module.exports = {
-  getServer: getServer
+  getPortalServer: getPortalServer
 };
 
 /**
@@ -19,10 +19,10 @@ module.exports = {
   * @param {object} req request object
   * @param {object} res response object
  */
-function getServer(req, res) {
+function getPortalServer(req, res) {
   // parameters/variables defined in the Swagger document can be referenced using:
   // req.swagger.params.{parameter_name}.value
-  agolDataFaker.generateFakeDataForSchema('server', function (fakeData) {
+  agolDataFaker.generateFakeDataForSchema('getPortalServer').then(function (fakeData) {
     // this sends back a JSON response which is a single string
     res.json(fakeData);
   });

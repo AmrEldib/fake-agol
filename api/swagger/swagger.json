@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "0.0.1",
+    "version": "0.1.0",
     "title": "fake-agol"
   },
   "host": "localhost:10010",
@@ -133,7 +133,7 @@
         },
         "description": "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals.",
         "operationId": "getOrgRoot",
-        "security": [ ],
+        "security": [],
         "parameters": [
           {
             "$ref": "#/parameters/f"
@@ -144,12 +144,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getOrgRoot"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -167,7 +161,9 @@
         "operationId": "getGroup",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getGroup" ]
+            "agol_oauth_implicit": [
+              "read:getGroup"
+            ]
           }
         ],
         "parameters": [
@@ -187,12 +183,6 @@
             "schema": {
               "$ref": "#/definitions/getGroup"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -209,7 +199,9 @@
         "operationId": "getGroupApplication",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getGroupApplication" ]
+            "agol_oauth_implicit": [
+              "read:getGroupApplication"
+            ]
           }
         ],
         "parameters": [
@@ -236,12 +228,6 @@
             "schema": {
               "$ref": "#/definitions/getGroupApplication"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -258,7 +244,9 @@
         "operationId": "getGroupApplications",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getGroupApplications" ]
+            "agol_oauth_implicit": [
+              "read:getGroupApplications"
+            ]
           }
         ],
         "parameters": [
@@ -278,12 +266,6 @@
             "schema": {
               "$ref": "#/definitions/getGroupApplications"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -300,7 +282,9 @@
         "operationId": "getGroupUsers",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getGroupUsers" ]
+            "agol_oauth_implicit": [
+              "read:getGroupUsers"
+            ]
           }
         ],
         "parameters": [
@@ -320,12 +304,6 @@
             "schema": {
               "$ref": "#/definitions/getGroupUsers"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -342,7 +320,9 @@
         "operationId": "getNotification",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getNotification" ]
+            "agol_oauth_implicit": [
+              "read:getNotification"
+            ]
           }
         ],
         "parameters": [
@@ -369,12 +349,6 @@
             "schema": {
               "$ref": "#/definitions/getNotification"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -391,7 +365,9 @@
         "operationId": "getNotifications",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getNotifications" ]
+            "agol_oauth_implicit": [
+              "read:getNotifications"
+            ]
           }
         ],
         "parameters": [
@@ -411,12 +387,6 @@
             "schema": {
               "$ref": "#/definitions/getNotification"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -433,7 +403,9 @@
         "operationId": "getUserSelf",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUserSelf" ]
+            "agol_oauth_implicit": [
+              "read:getUserSelf"
+            ]
           }
         ],
         "parameters": [
@@ -449,12 +421,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getUser"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -472,7 +438,9 @@
         "operationId": "updateUser",
         "security": [
           {
-            "agol_oauth_implicit": [ "post:updateUser" ]
+            "agol_oauth_implicit": [
+              "post:updateUser"
+            ]
           }
         ],
         "parameters": [
@@ -492,12 +460,6 @@
             "schema": {
               "$ref": "#/definitions/updateUser"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -514,7 +476,9 @@
         "operationId": "getUser",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUser" ]
+            "agol_oauth_implicit": [
+              "read:getUser"
+            ]
           }
         ],
         "parameters": [
@@ -534,12 +498,6 @@
             "schema": {
               "$ref": "#/definitions/getUser"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -556,7 +514,9 @@
         "operationId": "getUserInvitation",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUserInvitation" ]
+            "agol_oauth_implicit": [
+              "read:getUserInvitation"
+            ]
           }
         ],
         "parameters": [
@@ -583,12 +543,6 @@
             "schema": {
               "$ref": "#/definitions/getUserInvitation"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -605,7 +559,9 @@
         "operationId": "getUserInvitations",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUserInvitations" ]
+            "agol_oauth_implicit": [
+              "read:getUserInvitations"
+            ]
           }
         ],
         "parameters": [
@@ -625,12 +581,6 @@
             "schema": {
               "$ref": "#/definitions/getUserInvitations"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -647,7 +597,9 @@
         "operationId": "getUserTags",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUserTags" ]
+            "agol_oauth_implicit": [
+              "read:getUserTags"
+            ]
           }
         ],
         "parameters": [
@@ -667,12 +619,6 @@
             "schema": {
               "$ref": "#/definitions/getUserTags"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -689,7 +635,9 @@
         "operationId": "getItemGroups",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getItemGroups" ]
+            "agol_oauth_implicit": [
+              "read:getItemGroups"
+            ]
           }
         ],
         "parameters": [
@@ -709,12 +657,6 @@
             "schema": {
               "$ref": "#/definitions/getItemGroups"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -731,7 +673,9 @@
         "operationId": "getItem",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getItem" ]
+            "agol_oauth_implicit": [
+              "read:getItem"
+            ]
           }
         ],
         "parameters": [
@@ -751,12 +695,6 @@
             "schema": {
               "$ref": "#/definitions/getItem"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -773,7 +711,9 @@
         "operationId": "getItemComments",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getItemComments" ]
+            "agol_oauth_implicit": [
+              "read:getItemComments"
+            ]
           }
         ],
         "parameters": [
@@ -793,12 +733,6 @@
             "schema": {
               "$ref": "#/definitions/getItemComments"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -815,7 +749,9 @@
         "operationId": "getItemComment",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getItemComment" ]
+            "agol_oauth_implicit": [
+              "read:getItemComment"
+            ]
           }
         ],
         "parameters": [
@@ -842,12 +778,6 @@
             "schema": {
               "$ref": "#/definitions/getItemComment"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -864,7 +794,9 @@
         "operationId": "getItemRating",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getItemRating" ]
+            "agol_oauth_implicit": [
+              "read:getItemRating"
+            ]
           }
         ],
         "parameters": [
@@ -884,12 +816,6 @@
             "schema": {
               "$ref": "#/definitions/getItemRating"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -906,7 +832,9 @@
         "operationId": "getRelatedItems",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getRelatedItems" ]
+            "agol_oauth_implicit": [
+              "read:getRelatedItems"
+            ]
           }
         ],
         "parameters": [
@@ -942,12 +870,6 @@
             "schema": {
               "$ref": "#/definitions/getRelatedItems"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -964,7 +886,9 @@
         "operationId": "getGroupContent",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getGroupContent" ]
+            "agol_oauth_implicit": [
+              "read:getGroupContent"
+            ]
           }
         ],
         "parameters": [
@@ -984,12 +908,6 @@
             "schema": {
               "$ref": "#/definitions/getGroupContent"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1006,7 +924,9 @@
         "operationId": "getUserContent",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getUserContent" ]
+            "agol_oauth_implicit": [
+              "read:getUserContent"
+            ]
           }
         ],
         "parameters": [
@@ -1026,12 +946,6 @@
             "schema": {
               "$ref": "#/definitions/getUserContent"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1048,7 +962,9 @@
         "operationId": "getPortalSelf",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getPortalSelf" ]
+            "agol_oauth_implicit": [
+              "read:getPortalSelf"
+            ]
           }
         ],
         "parameters": [
@@ -1063,13 +979,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/getPortal"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
+              "$ref": "#/definitions/getPortalSelf"
             }
           }
         }
@@ -1087,7 +997,9 @@
         "operationId": "getPortalResources",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getPortalResources" ]
+            "agol_oauth_implicit": [
+              "read:getPortalResources"
+            ]
           }
         ],
         "parameters": [
@@ -1110,12 +1022,6 @@
             "schema": {
               "$ref": "#/definitions/getPortalResources"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1132,7 +1038,9 @@
         "operationId": "getPortalServers",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getPortalServers" ]
+            "agol_oauth_implicit": [
+              "read:getPortalServers"
+            ]
           }
         ],
         "parameters": [
@@ -1148,12 +1056,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getPortalServers"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -1171,7 +1073,9 @@
         "operationId": "getPortalUsers",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getPortalUsers" ]
+            "agol_oauth_implicit": [
+              "read:getPortalUsers"
+            ]
           }
         ],
         "parameters": [
@@ -1194,12 +1098,6 @@
             "schema": {
               "$ref": "#/definitions/getUsers"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1214,7 +1112,7 @@
         },
         "description": "Lists the available regions",
         "operationId": "getPortalRegions",
-        "security": [ ],
+        "security": [],
         "parameters": [
           {
             "$ref": "#/parameters/f"
@@ -1225,12 +1123,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getPortalRegions"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -1246,7 +1138,7 @@
         },
         "description": "Lists the available languages",
         "operationId": "getPortalLanguages",
-        "security": [ ],
+        "security": [],
         "parameters": [
           {
             "$ref": "#/parameters/f"
@@ -1257,12 +1149,6 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getPortalLanguages"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -1280,7 +1166,9 @@
         "operationId": "getPortalServer",
         "security": [
           {
-            "agol_oauth_implicit": [ "read:getPortalServer" ]
+            "agol_oauth_implicit": [
+              "read:getPortalServer"
+            ]
           }
         ],
         "parameters": [
@@ -1303,12 +1191,6 @@
             "schema": {
               "$ref": "#/definitions/getPortalServer"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1318,15 +1200,419 @@
     }
   },
   "definitions": {
-    "ErrorResponse": {
-      "required": [
-        "message"
-      ],
+    "acceptGroupApplication": {
+      "type": "object",
+      "description": "When a user applies to join a group, a group application is created. Group administrators choose to accept this application using the Accept Group Application operation (POST only). This operation adds the applying user to the group then deletes the application. This operation also creates a notification for the user indicating that the user's group application was accepted. Available only to group owners and admins. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Accept_Group_Application/02r300000069000000/",
+      "title": "acceptGroupApplication",
       "properties": {
-        "message": {
-          "type": "string"
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user being accepted into the group"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The group ID of the group that accepted the user's application"
         }
-      }
+      },
+      "required": [
+        "success",
+        "username",
+        "groupId"
+      ]
+    },
+    "acceptInvitation": {
+      "type": "object",
+      "description": "When a group owner or an administrator invites a user to their group, it results in a user invitation. The invited user accepts the invitation using the Accept Invitation operation (POST only). This operation adds the invited user to the group, and the invitation is deleted. This operation also creates a notification for the user indicating that the user's invitation was accepted. Available only to authenticated users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Accept_Invitation/02r3000000m4000000/",
+      "title": "acceptInvitation",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the accepted invitation"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user who accepted the invitation"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "If the targetType of the invitation is 'group,' the groupId of the joined group is returned"
+        }
+      },
+      "required": [
+        "success",
+        "id",
+        "username",
+        "groupId"
+      ]
+    },
+    "addComment": {
+      "type": "object",
+      "description": "Adds a comment to an item (POST only). Available only to authenticated users who have access to the item. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Comment/02r300000090000000/",
+      "title": "addComment",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Set to true if the comment was posted successfully"
+        },
+        "commentId": {
+          "type": "string",
+          "description": "The ID of the comment submitted"
+        }
+      },
+      "required": [
+        "success",
+        "commentId"
+      ]
+    },
+    "addItem": {
+      "type": "object",
+      "description": "The Add Item operation (POST only) is used to upload an item file, submit text content, or submit the item URL to the specified user folder depending on documented items and item types. This operation is available only to the specified user. The request to upload an item file must be a multipart request pursuant to IETF RFC1867. The request to submit text content or a URL can be a standard HTTP POST request. The user owning the folder automatically becomes the owner of the item. The item is flagged as private (that is, not shared with any group) by default. This can be changed using the Share Item operation. The added item is available to everyone it's shared with at the item resource. The item is also available to the owner at the user item resource, which supports operations to update, delete, move, share, and unshare items. The addItem operation allows users to optionally create a relationship and share an item in one call. See Add Relationship for parameter information. The same rules apply, with the following exceptions: If you specify an originItemId, the new item is added as the destination item. If you specify a destinationitemId, the new item is added as the origin item. If you specify both, an error is thrown. The relationship creation is done after the item is created. If the item doesn’t add correctly, no relationship is created. If the item adds correctly, but the relationship fails (that is, bad relationship type, invalid origin or destination item, and so on), the item is deleted. The destination item will inherit all the sharing permissions of the origin item. The filename or URL used for an item must be unique within the particular user's folder. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item/02r30000008q000000/",
+      "title": "addItem",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the created item"
+        },
+        "folder": {
+          "type": "string",
+          "description": "The folder in which the item was created"
+        }
+      },
+      "required": [
+        "success",
+        "id",
+        "folder"
+      ]
+    },
+    "addItemPart": {
+      "type": "object",
+      "description": "Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. Each upload takes an integer part number that indicates the order of this part compared to others. Each part can be uploaded at any time, in any order, even simultaneously. Each file part must be uploaded in an HTTP multipart request pursuant to IETF RFC1867. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item_Part/02r300000094000000/",
+      "title": "addItemPart",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the item containing part"
+        }
+      },
+      "required": [
+        "success",
+        "id"
+      ]
+    },
+    "addRating": {
+      "type": "object",
+      "description": "Adds a rating to an item to which you have access (POST only). Only one rating can be given to an item per user. If this call is made on a currently rated item, the new rating will overwrite the existing rating. A user cannot rate their own item. Available only to authenticated users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Rating/02r30000007v000000/",
+      "title": "addRating",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "addUsersToGroup": {
+      "type": "object",
+      "description": "The operation to Add Users to Group (POST only) is available only to the group administrators, including the owner, and to the administrator of the organization if the user is a member. Both users and admins can be added using this operation. This is useful if you wish to add users directly within an organization without requiring them to accept an invitation. For example, a member of an organization can add only other organization members but not public users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Users_to_Group/02r3000002mr000000/",
+      "title": "addUsersToGroup",
+      "properties": {
+        "notAdded": {
+          "type": "array",
+          "description": "A JSON array of usernames that were not added",
+          "minItems": 0,
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "notAdded"
+      ]
+    },
+    "createFolder": {
+      "type": "object",
+      "description": "Creates a folder in which items can be placed. Folders are only visible to a user and solely used for organizing content within that user's content space. The create user folder operation (POST only) is available only on the user's root folder. Multilevel folders are not supported. The user provides the title for the folder, which must be unique to that user. The folder ID is generated by the system. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Folder/02r300000074000000/",
+      "title": "createFolder",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "folder": {
+          "type": "object",
+          "description": "Folder JSON object that describes the folder just created",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The username of the person who created the folder"
+            },
+            "id": {
+              "type": "string",
+              "description": "The id of the folder"
+            },
+            "title": {
+              "type": "string",
+              "description": "The title of the folder"
+            }
+          },
+          "required": [
+            "username",
+            "id",
+            "title"
+          ]
+        }
+      },
+      "required": [
+        "success",
+        "folder"
+      ]
+    },
+    "createGroup": {
+      "type": "object",
+      "description": "The Create Group operation (POST only) creates a new group in the Portal community. Only authenticated users can create groups. The user who creates the group automatically becomes the owner of the group. The owner of the group is automatically an administrator of the group. The calling user provides the title for the group, while the group ID is generated by the system. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Group/02r30000009w000000/",
+      "title": "createGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "group": {
+          "type": "object",
+          "description": "The JSON group object representing the created group. See the Group response properties for the properties returned",
+          "$ref": "#/definitions/getGroup"
+        }
+      },
+      "required": [
+        "success",
+        "group"
+      ]
+    },
+    "createService": {
+      "type": "object",
+      "description": "The Create Service operation (POST only) allows users to create a hosted feature service. You can use the API to create an empty hosted feaure service from feature service metadata JSON. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Service/02r30000027r000000/",
+      "title": "createService",
+      "properties": {
+        "encodedServiceURL": {
+          "type": "string",
+          "description": "The encoded URL to the hosted service"
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The unique ID for this item"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the service item"
+        },
+        "serviceItemId": {
+          "type": "string",
+          "description": "The ID of the new service item"
+        },
+        "serviceurl": {
+          "type": "string",
+          "description": "The URL to the hosted service"
+        },
+        "size": {
+          "type": "integer",
+          "description": "The size of the item",
+          "minimum": -1,
+          "maximum": 10000000
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of service created",
+          "enum": [
+            "Feature Service"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The description of the new service item"
+        },
+        "tags": {
+          "type": "array",
+          "description": "The tags used to describe the service item",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "snippet": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "A short summary description of the item"
+        }
+      },
+      "required": [
+        "encodedServiceURL",
+        "itemId",
+        "name",
+        "serviceItemId",
+        "serviceurl",
+        "size",
+        "success",
+        "type",
+        "description",
+        "tags",
+        "snippet"
+      ]
+    },
+    "declineGroupApplication": {
+      "type": "object",
+      "description": "When a user applies to join a group, a group application is created. Group administrators can decline this application using the Decline Group Application operation (POST only). This operation deletes the application and creates a notification for the user indicating that the user's group application was declined. The applying user will not be added to the group. Available only to group owners and admins. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Decline_Group_Application/02r30000006q000000/",
+      "title": "declineGroupApplication",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user being declined from joining the group"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The group ID of the group that declined the user"
+        }
+      },
+      "required": [
+        "success",
+        "username",
+        "groupId"
+      ]
+    },
+    "declineInvitation": {
+      "type": "object",
+      "description": "When a group administrator invites a user to their group, it results in a group invitation. The invited user can decline the invitation using the Decline Invitation operation (POST only). The operation deletes the invitation and creates a notification for the user indicating that they declined the invitation. The invited user is not added to the group. Available only to authenticated users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Decline_Invitation/02r3000000m8000000/",
+      "title": "declineInvitation",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the declined invitation"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user who declined the invitation"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "If the targetType of the invitation is 'group,' the groupId of the group declined is returned"
+        }
+      },
+      "required": [
+        "success",
+        "id",
+        "username",
+        "groupId"
+      ]
+    },
+    "deleteComment": {
+      "type": "object",
+      "description": "Deletes the particular comment (POST only). This functionality is available to authenticated users who originally created the comment and item owners on items that they own. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Comment/02r300000072000000/",
+      "title": "deleteComment",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Set to true if the comment was deleted successfully"
+        },
+        "commentId": {
+          "type": "string",
+          "description": "The ID of the deleted submitted"
+        }
+      },
+      "required": [
+        "success",
+        "commentId"
+      ]
+    },
+    "deleteFolder": {
+      "type": "object",
+      "description": "The delete user folder operation (POST only) is available only on the user's non-root folders. The user's root folder cannot be deleted. Deleting a folder also deletes all items that it contains (both the items and the links are removed). http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Folder/02r30000008m000000/",
+      "title": "deleteFolder",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "folder": {
+          "type": "object",
+          "description": "Folder JSON object that describes the folder just deleted",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The username of the person who deleted the folder"
+            },
+            "id": {
+              "type": "string",
+              "description": "The id of the folder"
+            },
+            "title": {
+              "type": "string",
+              "description": "The title of the folder"
+            }
+          },
+          "required": [
+            "username",
+            "id",
+            "title"
+          ]
+        }
+      },
+      "required": [
+        "success",
+        "folder"
+      ]
+    },
+    "deleteGroup": {
+      "type": "object",
+      "description": "The Delete Group operation (POST only) is available only to the group administrators or to the administrator of the organization to which the owner belongs. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Group/02r300000070000000/",
+      "title": "deleteGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the deleted group"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
+      ]
     },
     "deleteNotification": {
       "type": "object",
@@ -1404,6 +1690,45 @@
         "user"
       ]
     },
+    "generateToken": {
+      "type": "object",
+      "description": "This operation generates an access token in exchange for user credentials that can be used by clients when working with the ArcGIS Portal API. The call is only allowed over HTTPS and must be a POST. The access token represents the authenticated user for a certain amount of time to all other API functionality. Developers using the API must take care to protect the token against malicious use just as they would the original credentials, and they must be prepared to renew the token. Expired tokens will be rejected by the server. From version 2.1, the generateToken operation also supports generation of a server-token in exchange for a portal token. This server-token is required for clients to access resources from a federated server. The parameters token and serverUrl are required to generate a server-token. See the descriptions of these parameters below for additional information. Organizations that choose to implement higher levels of security for their organizations can set the allSSL setting to true for their organization or portal. The effect of setting allSSL to true is that all non-HTTPS requests for resources belonging to the organization will be rejected. Setting allSSL to true guarantees that all transmissions of access tokens as well as data between clients and servers is over a secure encrypted channel and provides protection to tokens and data in transit. When generateToken is called for a user in such an organization, it returns a response property of ssl=true, and the token must always be passed back via HTTPS to the portal. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Generate_Token/02r3000000m5000000/",
+      "title": "generateToken",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "The generated token"
+        },
+        "expires": {
+          "type": "integer",
+          "description": "The expiration time of the token in milliseconds since Jan. 1, 1970 (UTC)"
+        },
+        "ssl": {
+          "type": "boolean",
+          "description": "True if the tokem must always pass over ssl"
+        }
+      },
+      "required": [
+        "token",
+        "expires",
+        "ssl"
+      ]
+    },
+    "getCommunity": {
+      "type": "object",
+      "description": "This resource allows discovery of the current authenticated user identified by the token. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Self/02r300000079000000/",
+      "title": "getCommunity",
+      "properties": {
+        "user": {
+          "type": "object",
+          "description": "A user resource representing a registered user of the portal",
+          "$ref": "#/definitions/getUser"
+        }
+      },
+      "required": [
+        "user"
+      ]
+    },
     "getCoordinate": {
       "type": "array",
       "description": "Coordinate",
@@ -1431,7 +1756,7 @@
       "minLength": 2,
       "maxLength": 2,
       "items": {
-        "$ref": "#/definitions/getCoordinate"
+          "$ref": "#/definitions/getCoordinate"
       }
     },
     "getFolder": {
@@ -1489,17 +1814,11 @@
           "description": "The owner username of the group"
         },
         "description": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": "string",
           "description": "The group description"
         },
         "snippet": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": "string",
           "description": "The group summary"
         },
         "tags": {
@@ -1511,10 +1830,7 @@
           "uniqueItems": true
         },
         "phone": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": "string",
           "description": "The contact information for the group"
         },
         "sortField": {
@@ -1527,8 +1843,7 @@
           "enum": [
             "asc",
             "desc"
-          ],
-          "pattern": "asc|desc"
+          ]
         },
         "isViewOnly": {
           "type": "boolean",
@@ -1560,30 +1875,25 @@
             "private",
             "org",
             "public"
-          ],
-          "pattern": "private|org|public"
+          ]
         },
         "userMembership": {
-          "type": [
-            "object",
-            "null"
-          ],
+          "type": "object",
           "description": "If the request is made by an authenticated user, a JSON object is returned containing information about the user's access to the group. This includes the username of the calling user, the memberType, which specifies the type of membership the user has in the group (owner, member, admin, none), and the applications (number of requests to join the group) count available to admins and owners",
           "properties": {
             "username": {
               "type": "string",
-              "description": "requestor username"
+              "description": "Username of the calling user"
             },
             "memberType": {
               "type": "string",
-              "description": "specifies the type of membership the user has in the group (owner, member, admin, none)",
+              "description": "Specifies the type of membership the user has in the group (owner, member, admin, none)",
               "enum": [
                 "owner",
                 "member",
                 "admin",
                 "none"
-              ],
-              "pattern": "owner|member|admin|none"
+              ]
             },
             "applications": {
               "type": "integer",
@@ -1591,9 +1901,8 @@
             }
           },
           "required": [
-            "applications",
-            "memberType",
-            "username"
+            "username",
+            "memberType"
           ]
         }
       },
@@ -1613,8 +1922,7 @@
         "thumbnail",
         "created",
         "modified",
-        "access",
-        "userMembership"
+        "access"
       ]
     },
     "getGroupApplication": {
@@ -2212,7 +2520,186 @@
         "currentVersion"
       ]
     },
-    "getPortal": {
+    "getPortalAppInfo": {
+      "type": "object",
+      "description": "Information about the Application through which this resource was accessed. This information is based on the token used to access this resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
+      "title": "portalAppInfo",
+      "properties": {
+        "appID": {
+          "type": "string",
+          "description": "The AppID of the registered Application. This is also the OAuth client_id"
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The item ID of the registered Application"
+        },
+        "appOwner": {
+          "type": "string",
+          "description": "The owner of the Application"
+        },
+        "orgId": {
+          "type": "string",
+          "description": "The organization to which the Application owner belongs"
+        },
+        "appTitle": {
+          "type": "string",
+          "description": "The title of the Application"
+        }
+      },
+      "required": [
+        "appID",
+        "itemId",
+        "appOwner",
+        "orgId",
+        "appTitle"
+      ]
+    },
+    "getPortalFeaturedGroup": {
+      "type": "object",
+      "description": "The featured groups for the organization. These are the groups that will be highlighted on the Groups page. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
+      "title": "portalFeaturedGroup",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The owner of the featured group"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the featured group"
+        }
+      },
+      "required": [
+        "owner",
+        "title"
+      ]
+    },
+    "getPortalLanguage": {
+      "type": "object",
+      "description": "Available language. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
+      "title": "language",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "Language's name"
+        },
+        "culture": {
+          "type": "string",
+          "description": "Language's culture"
+        },
+        "localizedName": {
+          "type": "string",
+          "description": "Language's localized name"
+        }
+      },
+      "required": [
+        "language",
+        "culture",
+        "localizedName"
+      ]
+    },
+    "getPortalLanguages": {
+      "type": "array",
+      "description": "Lists the available languages. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
+      "title": "languages",
+      "items": {
+        "$ref": "#/definitions/getPortalLanguage"
+      }
+    },
+    "getPortalRegion": {
+      "type": "object",
+      "description": "Available region. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
+      "title": "region",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Region's name"
+        },
+        "region": {
+          "type": "string",
+          "description": "Region's short name"
+        },
+        "localizedName": {
+          "type": "string",
+          "description": "Region's localized name"
+        }
+      },
+      "required": [
+        "name",
+        "region",
+        "localizedName"
+      ]
+    },
+    "getPortalRegions": {
+      "type": "array",
+      "description": "Lists the available regions. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
+      "title": "regions",
+      "items": {
+        "$ref": "#/definitions/getPortalRegion"
+      }
+    },
+    "getPortalResource": {
+      "type": "object",
+      "description": "resource objects that contain the key, size, and created date of the resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
+      "title": "resource",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The ID of the comment"
+        },
+        "size": {
+          "type": "integer",
+          "description": "Size of the resource"
+        },
+        "created": {
+          "type": "integer",
+          "description": "The date and time the resource was created. Shown in UNIX time"
+        }
+      },
+      "required": [
+        "key",
+        "size",
+        "created"
+      ]
+    },
+    "getPortalResources": {
+      "type": "object",
+      "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
+      "title": "resources",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "The total number of results found"
+        },
+        "start": {
+          "type": "integer",
+          "description": "The number of the first entry in the result set response. The index number is 1-based"
+        },
+        "num": {
+          "type": "integer",
+          "description": "The number of results included in this result set response"
+        },
+        "nextStart": {
+          "type": "integer",
+          "description": "The next entry index if the current result set doesn't contain all results"
+        },
+        "resources": {
+          "type": "array",
+          "description": "A JSON array of resource objects that contain the key, size, and created date of the resource",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getPortalResource"
+          }
+        }
+      },
+      "required": [
+        "total",
+        "start",
+        "num",
+        "nextStart",
+        "resources"
+      ]
+    },
+    "getPortalSelf": {
       "type": "object",
       "description": "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
       "title": "portal",
@@ -2804,185 +3291,6 @@
         "user"
       ]
     },
-    "getPortalAppInfo": {
-      "type": "object",
-      "description": "Information about the Application through which this resource was accessed. This information is based on the token used to access this resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
-      "title": "portalAppInfo",
-      "properties": {
-        "appID": {
-          "type": "string",
-          "description": "The AppID of the registered Application. This is also the OAuth client_id"
-        },
-        "itemId": {
-          "type": "string",
-          "description": "The item ID of the registered Application"
-        },
-        "appOwner": {
-          "type": "string",
-          "description": "The owner of the Application"
-        },
-        "orgId": {
-          "type": "string",
-          "description": "The organization to which the Application owner belongs"
-        },
-        "appTitle": {
-          "type": "string",
-          "description": "The title of the Application"
-        }
-      },
-      "required": [
-        "appID",
-        "itemId",
-        "appOwner",
-        "orgId",
-        "appTitle"
-      ]
-    },
-    "getPortalFeaturedGroup": {
-      "type": "object",
-      "description": "The featured groups for the organization. These are the groups that will be highlighted on the Groups page. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/",
-      "title": "portalFeaturedGroup",
-      "properties": {
-        "owner": {
-          "type": "string",
-          "description": "The owner of the featured group"
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the featured group"
-        }
-      },
-      "required": [
-        "owner",
-        "title"
-      ]
-    },
-    "getPortalLanguage": {
-      "type": "object",
-      "description": "Available language. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
-      "title": "language",
-      "properties": {
-        "language": {
-          "type": "string",
-          "description": "Language's name"
-        },
-        "culture": {
-          "type": "string",
-          "description": "Language's culture"
-        },
-        "localizedName": {
-          "type": "string",
-          "description": "Language's localized name"
-        }
-      },
-      "required": [
-        "language",
-        "culture",
-        "localizedName"
-      ]
-    },
-    "getPortalLanguages": {
-      "type": "array",
-      "description": "Lists the available languages. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/",
-      "title": "languages",
-      "items": {
-        "$ref": "#/definitions/getPortalLanguage"
-      }
-    },
-    "getPortalRegion": {
-      "type": "object",
-      "description": "Available region. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
-      "title": "region",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Region's name"
-        },
-        "region": {
-          "type": "string",
-          "description": "Region's short name"
-        },
-        "localizedName": {
-          "type": "string",
-          "description": "Region's localized name"
-        }
-      },
-      "required": [
-        "name",
-        "region",
-        "localizedName"
-      ]
-    },
-    "getPortalRegions": {
-      "type": "array",
-      "description": "Lists the available regions. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/",
-      "title": "regions",
-      "items": {
-        "$ref": "#/definitions/getPortalRegion"
-      }
-    },
-    "getPortalResource": {
-      "type": "object",
-      "description": "resource objects that contain the key, size, and created date of the resource. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
-      "title": "resource",
-      "properties": {
-        "key": {
-          "type": "string",
-          "description": "The ID of the comment"
-        },
-        "size": {
-          "type": "integer",
-          "description": "Size of the resource"
-        },
-        "created": {
-          "type": "integer",
-          "description": "The date and time the resource was created. Shown in UNIX time"
-        }
-      },
-      "required": [
-        "key",
-        "size",
-        "created"
-      ]
-    },
-    "getPortalResources": {
-      "type": "object",
-      "description": "Resources lists all file resources for the organization. The start and num paging parameters are supported. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Resources/02r30000009r000000/",
-      "title": "resources",
-      "properties": {
-        "total": {
-          "type": "integer",
-          "description": "The total number of results found"
-        },
-        "start": {
-          "type": "integer",
-          "description": "The number of the first entry in the result set response. The index number is 1-based"
-        },
-        "num": {
-          "type": "integer",
-          "description": "The number of results included in this result set response"
-        },
-        "nextStart": {
-          "type": "integer",
-          "description": "The next entry index if the current result set doesn't contain all results"
-        },
-        "resources": {
-          "type": "array",
-          "description": "A JSON array of resource objects that contain the key, size, and created date of the resource",
-          "minLength": 0,
-          "items": {
-            "$ref": "#/definitions/getPortalResource"
-          }
-        }
-      },
-      "required": [
-        "total",
-        "start",
-        "num",
-        "nextStart",
-        "resources"
-      ]
-    },
     "getPortalServer": {
       "type": "object",
       "description": "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/",
@@ -3499,6 +3807,203 @@
         "tags"
       ]
     },
+    "groupSearch": {
+      "type": "object",
+      "description": "The Group Search operation searches for groups in the portal. The search index is updated whenever groups and organizations are created, updated, or deleted. There can be a lag between the time that a group is updated and the time when it's reflected in the search results. The results only contain groups that the user has permission to access. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Search/02r3000000m1000000/",
+      "title": "groupSearch",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The query string searched"
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of results found for the whole query. The number of query results is limited to 10000",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "start": {
+          "type": "integer",
+          "description": "The number of the first entry in the result set for this response. The index number is 1-based",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "num": {
+          "type": "integer",
+          "description": "The number of results included in the result set for this response",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "nextStart": {
+          "type": "integer",
+          "description": "The next entry index if the current result set doesn't contain all results",
+          "minimum": -1,
+          "maximum": 10000
+        },
+        "results": {
+          "type": "array",
+          "description": "A JSON array of group objects. See the response properties for Group",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getGroup"
+          }
+        }
+      },
+      "required": [
+        "query",
+        "total",
+        "start",
+        "num",
+        "nextStart",
+        "results"
+      ]
+    },
+    "inviteToGroup": {
+      "type": "object",
+      "description": "A group administrator can invite users to join their group using the Invite to Group operation. This creates a new user invitation, which the users accept or decline. The role of the user and the invitation expiration date can be set in the invitation. A notification is created for the user indicating that they were invited to join the group. Available only to authenticated users. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Invite_to_Group/02r30000006v000000/",
+      "title": "inviteToGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The groupId of the invited group"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
+      ]
+    },
+    "joinGroup": {
+      "type": "object",
+      "description": "Users apply to join a group using the Join Group operation (POST only). This creates a new group application, which the group administrators accept or decline. This operation also creates a notification for the user indicating that they have applied to join this group. Available only to authenticated users. Users can only apply to join groups to which they have access. If the group is private, users will not be able to find it to ask to join it. Information pertaining to the applying user, such as their full name and username, can be sent as part of the group application. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Join_Group/02r30000006n000000/",
+      "title": "joinGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the group the user asked to join"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
+      ]
+    },
+    "leaveGroup": {
+      "type": "object",
+      "description": "The Leave Group operation (POST only) is available to all group members other than the group owner. Leaving a group automatically results in the unsharing of all items the user has shared with the group. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Leave_Group/02r30000006z000000/",
+      "title": "leaveGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the group the user left"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
+      ]
+    },
+    "reassignGroup": {
+      "type": "object",
+      "description": "The Reassign Group operation (POST only) allows the administrator of an organization to reassign a group to another member of the organization. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Reassign_Group/02r300000067000000/",
+      "title": "reassignGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the reassigned group"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
+      ]
+    },
+    "removeUsersFromGroup": {
+      "type": "object",
+      "description": "The operation to Remove Users From Group (POST only) is available only to the group administrators, including the owner, and to the administrator of the organization if the user is a member. Both users and admins can be removed using this operation. Group owners cannot be removed from the group. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Remove_Users_From_Group/02r300000066000000/",
+      "title": "removeUsersFromGroup",
+      "properties": {
+        "notRemoved": {
+          "type": "array",
+          "description": "A JSON array of usernames that were not removed. This can happen when the username was never a member of the group",
+          "minItems": 0,
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "notRemoved"
+      ]
+    },
+    "search": {
+      "type": "object",
+      "description": "This operation searches for content items in the portal. The searches are performed against a high performance index that indexes the most popular fields of an item. See the Search reference page for information on the fields and the syntax of the query. The search index is updated whenever users add, update, or delete content. There can be a lag between the time that the content is updated and the time when it's reflected in the search results. The results of a search only contain items that the user has permission to access. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Search/02r3000000mp000000/",
+      "title": "search",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The query string searched"
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of results found for the whole query. The number of query results is limited to 10000",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "start": {
+          "type": "integer",
+          "description": "The number of the first entry in the result set for this response. The index number is 1-based",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "num": {
+          "type": "integer",
+          "description": "The number of results included in the result set for this response",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "nextStart": {
+          "type": "integer",
+          "description": "The next entry index if the current result set doesn't contain all results",
+          "minimum": -1,
+          "maximum": 10000
+        },
+        "results": {
+          "type": "array",
+          "description": "A JSON array of item objects. See the response properties of an item",
+          "minLength": 0,
+          "items": {
+            "$ref": "#/definitions/getItem"
+          }
+        }
+      },
+      "required": [
+        "query",
+        "total",
+        "start",
+        "num",
+        "nextStart",
+        "results"
+      ]
+    },
     "searchUsers": {
       "type": "object",
       "description": "The User Search operation searches for users in the portal. The search index is updated whenever users are created, updated, or deleted. There can be a lag between the time that the user is updated and the time when it's reflected in the search results. The results only contain users that the calling user has permissions to see. Users can control this visibility by changing the access property of their user. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves. http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Search/02r3000000m6000000/",
@@ -3631,6 +4136,25 @@
         "thumbnail",
         "units",
         "username"
+      ]
+    },
+    "updateGroup": {
+      "type": "object",
+      "description": "The Update Group operation (POST only) modifies properties such as the group title, tags, description, sort field and order, and member sharing capabilities. Available only to the group administrators or to the administrator of the organization if the user is a member. Only the properties that are to be updated need to be specified in the request. Properties not specified will not be affected. The group ID cannot be modified. http://resources.arcgis.com/en/help/arcgis-rest-api/#/Update_Group/02r30000006w000000/",
+      "title": "updateGroup",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the operation was successful"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the updated group"
+        }
+      },
+      "required": [
+        "success",
+        "groupId"
       ]
     },
     "updateUser": {

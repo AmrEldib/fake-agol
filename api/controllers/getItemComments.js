@@ -20,9 +20,9 @@ module.exports = {
   * @param {object} res response object
  */
 function getItemComments(req, res) {
-  // parameters/variables defined in the Swagger document can be referenced using: 
+  // parameters/variables defined in the Swagger document can be referenced using:
   // req.swagger.params.{parameter_name}.value
-  agolDataFaker.generateFakeDataForSchema('comments', function (fakeData) {
+  agolDataFaker.generateFakeDataForSchema('getItemComments').then(function (fakeData) {
     // this sends back a JSON response which is a single string
     res.json(fakeData);
   });

@@ -22,7 +22,7 @@ module.exports = {
 function getPortalSelf(req, res) {
   // parameters/variables defined in the Swagger document can be referenced using:
   // req.swagger.params.{parameter_name}.value
-  agolDataFaker.generateFakeDataForSchema('portal', function (fakeData) {
+  agolDataFaker.generateFakeDataForSchema('getPortalSelf').then(function (fakeData) {
     // this sends back a JSON response which is a single string
     res.json(fakeData);
   });

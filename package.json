@@ -1,29 +1,47 @@
 {
   "name": "fake-agol",
-  "version": "0.0.1",
-  "private": true,
-  "description": "Fake ArcGIS Online Server that simulate its REST API",
+  "version": "0.1.0",
+  "description": "Node.js Server that simulates ArcGIS Online REST API",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmrEldib/fake-agol.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AmrEldib/fake-agol/issues"
+  },
+  "homepage": "https://github.com/AmrEldib/fake-agol#readme",
   "keywords": [
-    "testing",
+    "test",
+    "fake",
     "esri",
-    "arcgis"
+    "arcgis",
+    "agol"
   ],
   "author": "Amr Eldib",
-  "license": "",
-  "main": "app.js",
+  "contributors": [
+    {
+      "name": "Amr Eldib",
+      "url": "http://amreldib.com"
+    }
+  ],
+  "license": "MIT",
   "dependencies": {
+    "agol-data-faker": "^0.4.0",
     "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0",
-    "agol-data-faker": "^0.3.0"
+    "rsvp": "^3.2.1",
+    "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
+    "agol-schemas": "^1.0.1",
+    "json2yaml": "^1.0.3",
     "should": "^7.1.0",
-    "supertest": "^1.0.0",
-    "json2yaml": "^1.0.3"
+    "supertest": "^1.0.0"
   },
   "scripts": {
     "start": "node app.js",
     "test": "swagger project test",
-    "convert": "json2yaml api/swagger/swagger.json > api/swagger/swagger.yaml"
+    "convert": "json2yaml api/swagger/swagger.json > api/swagger/swagger.yaml",
+    "updateDefs": "node build/update-swagger-definitions.js"
   }
 }
