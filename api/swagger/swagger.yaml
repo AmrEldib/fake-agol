@@ -2,9 +2,9 @@
   swagger: "2.0"
   info: 
     version: "0.1.0"
-    title: "fake-agol"
-  host: "localhost:10010"
-  basePath: "/"
+    title: "agol-swagger"
+  host: "www.arcgis.com"
+  basePath: "/sharing/rest"
   schemes: 
     - "http"
     - "https"
@@ -975,7 +975,9 @@
         group: 
           type: "object"
           description: "The JSON group object representing the created group. See the Group response properties for the properties returned"
-          $ref: "#/definitions/getGroup"
+          oneOf: 
+            - 
+              $ref: "#/definitions/getGroup"
       required: 
         - "success"
         - "group"
@@ -1243,7 +1245,10 @@
       minLength: 2
       maxLength: 2
       items: 
-        $ref: "#/definitions/getCoordinate"
+        type: "object"
+        oneOf: 
+          - 
+            $ref: "#/definitions/getCoordinate"
     getFolder: 
       type: 
         - "object"

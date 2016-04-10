@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "agol-schemas": "^1.0.1",
+    "agol-swagger": "^0.1.0",
     "json2yaml": "^1.0.3",
     "should": "^7.1.0",
     "supertest": "^1.0.0"
@@ -41,7 +42,6 @@
   "scripts": {
     "start": "node app.js",
     "test": "swagger project test",
-    "convert": "json2yaml api/swagger/swagger.json > api/swagger/swagger.yaml",
-    "updateDefs": "node build/update-swagger-definitions.js"
+    "convert": "json2yaml node_modules/agol-swagger/data/swagger.json > api/swagger/swagger.yaml"
   }
 }
