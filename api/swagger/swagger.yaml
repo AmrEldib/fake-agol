@@ -4,7 +4,7 @@
     version: "0.1.0"
     title: "agol-swagger"
   host: "www.arcgis.com"
-  basePath: "/sharing/rest"
+  basePath: "/"
   schemes: 
     - "http"
     - "https"
@@ -44,6 +44,35 @@
         read:getUserInvitations: "reads getUserInvitations"
         read:getUserTags: "reads getUserTags"
         post:updateUser: "posts updateUser"
+        post:acceptGroupApplication: "posts acceptGroupApplication"
+        post:acceptInvitation: "posts acceptInvitation"
+        post:addComment: "posts addComment"
+        post:addItem: "posts addItem"
+        post:addItemPart: "posts addItemPart"
+        post:addRating: "posts addRating"
+        post:addRelationship: "posts addRelationship"
+        post:addUsersToGroup: "posts addUsersToGroup"
+        post:createFolder: "posts createFolder"
+        post:createGroup: "posts createGroup"
+        post:createService: "posts createService"
+        post:declineGroupApplication: "posts declineGroupApplication"
+        post:declineInvitation: "posts declineInvitation"
+        post:deleteComment: "posts deleteComment"
+        post:deleteFolder: "posts deleteFolder"
+        post:deleteGroup: "posts deleteGroup"
+        post:deleteNotification: "posts deleteNotification"
+        post:deleteUser: "posts deleteUser"
+        post:disableUser: "posts disableUser"
+        post:enableUser: "posts enableUser"
+        read:groupSearch: "reads groupSearch"
+        post:inviteToGroup: "posts inviteToGroup"
+        post:joinGroup: "posts joinGroup"
+        post:leaveGroup: "posts leaveGroup"
+        post:reassignGroup: "posts reassignGroup"
+        post:removeUsersFromGroup: "posts removeUsersFromGroup"
+        read:search: "reads search"
+        read:searchUsers: "reads searchUsers"
+        post:updateGroup: "posts updateGroup"
   parameters: 
     f: 
       type: "string"
@@ -75,6 +104,34 @@
       maximum: 100
       minimum: 0
       required: false
+    q: 
+      name: "q"
+      type: "string"
+      description: "The query string to search the groups against. See Search reference for advanced options. Example: q=arcgis+online. Search reference http://resources.arcgis.com/en/help/arcgis-rest-api/#/Search_reference/02r3000000mn000000/"
+      in: "query"
+    sortField: 
+      name: "sortField"
+      type: "string"
+      description: "Field to sort by. The allowed field names are title, owner, and created."
+      in: "query"
+      enum: 
+        - "title"
+        - "owner"
+        - "created"
+    sortOrder: 
+      name: "sortOrder"
+      type: "string"
+      description: "Describes whether order returns in ascending or descending order. Default is ascending."
+      in: "query"
+      enum: 
+        - "asc"
+        - "desc"
+    bbox: 
+      type: "string"
+      description: "The bounding box for a spatial search defined as minx, miny, maxx, or maxy. Search requires q, bbox, or both. Spatial search is an overlaps/intersects function of the query bbox and the extent of the document. Documents that have no extent (e.g., mxds, 3dds, lyr) will not be found when doing a bbox search. Document extent is assumed to be in the WGS84 geographic coordinate system. Example: bbox=-118,32,-116,34"
+      name: "bbox"
+      in: "query"
+      required: false
     portalId: 
       name: "portalId"
       in: "path"
@@ -105,6 +162,78 @@
       description: "Name of the user"
       required: true
       type: "string"
+    applicationUsername: 
+      name: "applicationUsername"
+      in: "path"
+      description: "Name of the user applying to join the group"
+      required: true
+      type: "string"
+    invitationId: 
+      name: "invitationId"
+      in: "path"
+      description: "The ID of the invitation"
+      required: true
+      type: "string"
+    commentId: 
+      name: "commentId"
+      in: "path"
+      description: "Id of the comment"
+      required: true
+      type: "string"
+    folderId: 
+      name: "folderId"
+      in: "path"
+      description: "Id of the folder"
+      required: true
+      type: "string"
+    notificationId: 
+      name: "notificationId"
+      in: "path"
+      description: "Id of the notification"
+      required: true
+      type: "string"
+    groupCommonParameters: 
+      description: "Common parameters for creating and updating group information"
+      in: "body"
+      name: "groupCommonParameters"
+      required: true
+      schema: 
+        $ref: "#/definitions/groupCommonParameters"
+    inviteDetails: 
+      description: "Details for inviting users to a group"
+      in: "body"
+      name: "inviteDetails"
+      required: true
+      schema: 
+        $ref: "#/definitions/inviteDetails"
+    partDetails: 
+      description: "Details for adding an item part"
+      in: "body"
+      name: "partDetails"
+      required: true
+      schema: 
+        $ref: "#/definitions/partDetails"
+    itemDetails: 
+      description: "Details for adding an item"
+      in: "body"
+      name: "itemDetails"
+      required: true
+      schema: 
+        $ref: "#/definitions/itemDetails"
+    serviceDetails: 
+      description: "Details for creating a service"
+      in: "body"
+      name: "serviceDetails"
+      required: true
+      schema: 
+        $ref: "#/definitions/serviceDetails"
+    tokenDetails: 
+      description: "Details for generating a token"
+      in: "body"
+      name: "tokenDetails"
+      required: true
+      schema: 
+        $ref: "#/definitions/tokenDetails"
   paths: 
     /sharing/rest: 
       x-swagger-router-controller: "getOrgRoot"
@@ -124,6 +253,64 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getOrgRoot"
+    /sharing/rest/community/createGroup: 
+      x-swagger-router-controller: "createGroup"
+      post: 
+        summary: "Create Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Create Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Group/02r30000009w000000/"
+        description: "The Create Group operation (POST only) creates a new group in the Portal community. Only authenticated users can create groups. The user who creates the group automatically becomes the owner of the group. The owner of the group is automatically an administrator of the group. The calling user provides the title for the group, while the group ID is generated by the system."
+        operationId: "createGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:createGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupCommonParameters"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/createFolder"
+    /sharing/rest/community/groups: 
+      x-swagger-router-controller: "groupSearch"
+      get: 
+        summary: "Group Search"
+        externalDocs: 
+          description: "Managing your organization > Community > Group Search"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Search/02r3000000m1000000/"
+        description: "The Group Search operation searches for groups in the portal. The search index is updated whenever groups and organizations are created, updated, or deleted. There can be a lag between the time that a group is updated and the time when it's reflected in the search results. The results only contain groups that the user has permission to access. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves."
+        operationId: "groupSearch"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:groupSearch"
+        parameters: 
+          - 
+            $ref: "#/parameters/q"
+          - 
+            $ref: "#/parameters/start"
+          - 
+            $ref: "#/parameters/num"
+          - 
+            $ref: "#/parameters/sortField"
+          - 
+            $ref: "#/parameters/sortOrder"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/groupSearch"
     /sharing/rest/community/groups/{groupId}: 
       x-swagger-router-controller: "getGroup"
       get: 
@@ -149,28 +336,24 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getGroup"
-    /sharing/rest/community/groups/{groupId}/applications/{applicationUsername}: 
-      x-swagger-router-controller: "getGroupApplication"
-      get: 
-        summary: "Group Application"
+    /sharing/rest/community/groups/{groupId}/invite: 
+      x-swagger-router-controller: "inviteToGroup"
+      post: 
+        summary: "Invite to Group"
         externalDocs: 
-          description: "Managing your organization > Community > Group Application"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Application/02r30000006r000000/"
-        description: "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization"
-        operationId: "getGroupApplication"
+          description: "Managing your organization > Community > Invite to Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Invite_to_Group/02r30000006v000000/"
+        description: "A group administrator can invite users to join their group using the Invite to Group operation. This creates a new user invitation, which the users accept or decline. The role of the user and the invitation expiration date can be set in the invitation. A notification is created for the user indicating that they were invited to join the group. Available only to authenticated users. "
+        operationId: "inviteToGroup"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getGroupApplication"
+              - "post:inviteToGroup"
         parameters: 
           - 
             $ref: "#/parameters/groupId"
           - 
-            name: "applicationUsername"
-            in: "path"
-            description: "User applying to join the group"
-            required: true
-            type: "string"
+            $ref: "#/parameters/inviteDetails"
           - 
             $ref: "#/parameters/f"
           - 
@@ -179,7 +362,39 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getGroupApplication"
+              $ref: "#/definitions/inviteToGroup"
+    /sharing/rest/community/groups/{groupId}/addUsers: 
+      x-swagger-router-controller: "addUsersToGroup"
+      post: 
+        summary: "Add Users to Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Add Users to Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Users_to_Group/02r3000002mr000000/"
+        description: "The operation to Add Users to Group (POST only) is available only to the group administrators, including the owner, and to the administrator of the organization if the user is a member. Both users and admins can be added using this operation. This is useful if you wish to add users directly within an organization without requiring them to accept an invitation. For example, a member of an organization can add only other organization members but not public users"
+        operationId: "addUsersToGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:addUsersToGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            name: "users"
+            in: "body"
+            description: "A comma-separated list of usernames (both admins and regular users) to be added to the group. Example: users=regularusername1,adminusername1,adminusername2,regularusername2"
+            required: true
+            schema: 
+              type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/addUsersToGroup"
     /sharing/rest/community/groups/{groupId}/applications: 
       x-swagger-router-controller: "getGroupApplications"
       get: 
@@ -205,6 +420,253 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getGroupApplications"
+    /sharing/rest/community/groups/{groupId}/applications/{applicationUsername}: 
+      x-swagger-router-controller: "getGroupApplication"
+      get: 
+        summary: "Group Application"
+        externalDocs: 
+          description: "Managing your organization > Community > Group Application"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Application/02r30000006r000000/"
+        description: "When an individual user applies to join a group, a group application is created. The group administrators can accept or decline the application. Available only to the group administrators and the administrator of the organization if the group belongs to an organization"
+        operationId: "getGroupApplication"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getGroupApplication"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/applicationUsername"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getGroupApplication"
+    /sharing/rest/community/groups/{groupId}/applications/{applicationUsername}/accept: 
+      x-swagger-router-controller: "acceptGroupApplication"
+      post: 
+        summary: "Accept Group Application"
+        externalDocs: 
+          description: "Managing your organization > Community > Accept Group Application"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Accept_Group_Application/02r300000069000000/"
+        description: "When a user applies to join a group, a group application is created. Group administrators choose to accept this application using the Accept Group Application operation (POST only). This operation adds the applying user to the group then deletes the application. This operation also creates a notification for the user indicating that the user's group application was accepted. Available only to group owners and admins"
+        operationId: "acceptGroupApplication"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:acceptGroupApplication"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/applicationUsername"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/acceptGroupApplication"
+    /sharing/rest/community/groups/{groupId}/applications/{applicationUsername}/decline: 
+      x-swagger-router-controller: "declineGroupApplication"
+      post: 
+        summary: "Decline Group Application"
+        externalDocs: 
+          description: "Managing your organization > Community > Decline Group Application"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Decline_Group_Application/02r30000006q000000/"
+        description: "When a user applies to join a group, a group application is created. Group administrators can decline this application using the Decline Group Application operation (POST only). This operation deletes the application and creates a notification for the user indicating that the user's group application was declined. The applying user will not be added to the group. Available only to group owners and admins"
+        operationId: "declineGroupApplication"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:declineGroupApplication"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/applicationUsername"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/declineGroupApplication"
+    /sharing/rest/community/groups/{groupId}/delete: 
+      x-swagger-router-controller: "deleteGroup"
+      post: 
+        summary: "Delete Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Delete Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Group/02r300000070000000/"
+        description: "The Delete Group operation (POST only) is available only to the group administrators or to the administrator of the organization to which the owner belongs"
+        operationId: "deleteGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:deleteGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/deleteGroup"
+    /sharing/rest/community/groups/{groupId}/join: 
+      x-swagger-router-controller: "joinGroup"
+      post: 
+        summary: "Join Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Join Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Join_Group/02r30000006n000000/"
+        description: "Users apply to join a group using the Join Group operation (POST only). This creates a new group application, which the group administrators accept or decline. This operation also creates a notification for the user indicating that they have applied to join this group. Available only to authenticated users. Users can only apply to join groups to which they have access. If the group is private, users will not be able to find it to ask to join it. Information pertaining to the applying user, such as their full name and username, can be sent as part of the group application. "
+        operationId: "joinGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:joinGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/joinGroup"
+    /sharing/rest/community/groups/{groupId}/leave: 
+      x-swagger-router-controller: "leaveGroup"
+      post: 
+        summary: "Leave Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Leave Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Leave_Group/02r30000006z000000/"
+        description: "The Leave Group operation (POST only) is available to all group members other than the group owner. Leaving a group automatically results in the unsharing of all items the user has shared with the group."
+        operationId: "leaveGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:leaveGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/leaveGroup"
+    /sharing/rest/community/groups/{groupId}/reassign: 
+      x-swagger-router-controller: "reassignGroup"
+      post: 
+        summary: "Reassign Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Reassign Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Reassign_Group/02r300000067000000/"
+        description: "The Reassign Group operation (POST only) allows the administrator of an organization to reassign a group to another member of the organization."
+        operationId: "reassignGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:reassignGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            name: "targetUsername"
+            in: "body"
+            description: "The target username of the new owner of the group. Example: organization_username1"
+            required: true
+            schema: 
+              type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/reassignGroup"
+    /sharing/rest/community/groups/{groupId}/removeUsers: 
+      x-swagger-router-controller: "removeUsersFromGroup"
+      post: 
+        summary: "Remove Users from Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Remove Users from Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Remove_Users_From_Group/02r300000066000000/"
+        description: "The operation to Remove Users From Group (POST only) is available only to the group administrators, including the owner, and to the administrator of the organization if the user is a member. Both users and admins can be removed using this operation. Group owners cannot be removed from the group."
+        operationId: "removeUsersFromGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:removeUsersFromGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            name: "users"
+            in: "body"
+            description: "A comma-separated list of usernames (both admins and regular users) to be removed from the group. Example: users=regularusername1,adminusername1,adminusername2,            regularusername2"
+            required: true
+            schema: 
+              type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/removeUsersFromGroup"
+    /sharing/rest/community/groups/{groupId}/update: 
+      x-swagger-router-controller: "updateGroup"
+      post: 
+        summary: "Update Group"
+        externalDocs: 
+          description: "Managing your organization > Community > Update Group"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Update_Group/02r30000006w000000/"
+        description: "The Update Group operation (POST only) modifies properties such as the group title, tags, description, sort field and order, and member sharing capabilities. Available only to the group administrators or to the administrator of the organization if the user is a member. Only the properties that are to be updated need to be specified in the request. Properties not specified will not be affected. The group ID cannot be modified."
+        operationId: "updateGroup"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:updateGroup"
+        parameters: 
+          - 
+            $ref: "#/parameters/groupId"
+          - 
+            $ref: "#/parameters/groupCommonParameters"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/updateGroup"
     /sharing/rest/community/groups/{groupId}/users: 
       x-swagger-router-controller: "getGroupUsers"
       get: 
@@ -230,6 +692,268 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getGroupUsers"
+    /sharing/rest/community/self: 
+      x-swagger-router-controller: "getUserSelf"
+      get: 
+        summary: "Self"
+        externalDocs: 
+          description: "Managing your organization > Community > Self"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Self/02r300000079000000/"
+        description: "This resource allows discovery of the current authenticated user identified by the token"
+        operationId: "getUserSelf"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getUserSelf"
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getUser"
+    /sharing/rest/community/users: 
+      x-swagger-router-controller: "searchUsers"
+      get: 
+        summary: "User Search"
+        externalDocs: 
+          description: "Managing your organization > Community > Search Users"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Search/02r3000000m6000000/"
+        description: "The User Search operation searches for users in the portal. The search index is updated whenever users are created, updated, or deleted. There can be a lag between the time that the user is updated and the time when it's reflected in the search results. The results only contain users that the calling user has permissions to see. Users can control this visibility by changing the access property of their user. Care should be taken when using ArcGIS REST API search operations (search, user search, group search) to find items, groups, and users programmatically. The Portal uses a powerful search engine to index information and to allow full text searching on it. This search engine uses many different inputs to find the appropriate results and rank them. This often makes search 'fuzzy', making it ideal for human interaction, but not necessarily ideal for looking for specific records programmatically. Developers should avoid using search to find specific items (e.g. by title) as the results of these types of queries might change as the search engine evolves. "
+        operationId: "searchUsers"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:searchUsers"
+        parameters: 
+          - 
+            $ref: "#/parameters/q"
+          - 
+            $ref: "#/parameters/start"
+          - 
+            $ref: "#/parameters/num"
+          - 
+            $ref: "#/parameters/sortField"
+          - 
+            $ref: "#/parameters/sortOrder"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/searchUsers"
+    /sharing/rest/community/users/{userName}: 
+      x-swagger-router-controller: "getUser"
+      get: 
+        summary: "User"
+        externalDocs: 
+          description: "Managing your organization > Community > User"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User/02r3000000m2000000/"
+        description: "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private."
+        operationId: "getUser"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getUser"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getUser"
+    /sharing/rest/community/users/{userName}/delete: 
+      x-swagger-router-controller: "deleteUser"
+      post: 
+        summary: "Delete User"
+        externalDocs: 
+          description: "Managing your organization > Community > Delete User"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_User/02r3000000mw000000/"
+        description: "The Delete User operation (POST only) is available only to the user in question or to the administrator of the user's organization. If deleting a user who is part of an organization, their content and groups must be transferred to another member or deleted prior to deleting the user. If the user is not part of an organization, all content and groups of the user must first be deleted. Deleting a user whose identity provider is the Esri Global Account will not delete the user from the Esri Global Account system."
+        operationId: "deleteUser"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:deleteUser"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/deleteUser"
+    /sharing/rest/community/users/{userName}/disable: 
+      x-swagger-router-controller: "disableUser"
+      post: 
+        summary: "Disable User"
+        externalDocs: 
+          description: "Managing your organization > Community > Disable User"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Disable/02r30000026m000000/"
+        description: "The Disable operation (POST only) disables login access for the user. It is only available to the administrator of the organization."
+        operationId: "disableUser"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:disableUser"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/disableUser"
+    /sharing/rest/community/users/{userName}/enable: 
+      x-swagger-router-controller: "enableUser"
+      post: 
+        summary: "Enable User"
+        externalDocs: 
+          description: "Managing your organization > Community > Enable User"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Enable/02r30000026p000000/"
+        description: "The Enable operation (POST only) enables login access for the user. It is only available to the administrator of the organization."
+        operationId: "enableUser"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:enableUser"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/enableUser"
+    /sharing/rest/community/users/{userName}/invitations: 
+      x-swagger-router-controller: "getUserInvitations"
+      get: 
+        summary: "User Invitations"
+        externalDocs: 
+          description: "Managing your organization > Community > User Invitations"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitations/02r3000000m7000000/"
+        description: "Shows the invitations sent to the authenticated user"
+        operationId: "getUserInvitations"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getUserInvitations"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getUserInvitations"
+    /sharing/rest/community/users/{userName}/invitations/{invitationId}: 
+      x-swagger-router-controller: "getUserInvitation"
+      get: 
+        summary: "User Invitation"
+        externalDocs: 
+          description: "Managing your organization > Community > User Invitation"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitation/02r3000000mr000000/"
+        description: "An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types"
+        operationId: "getUserInvitation"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getUserInvitation"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/invitationId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getUserInvitation"
+    /sharing/rest/community/users/{userName}/invitations/{invitationId}/accept: 
+      x-swagger-router-controller: "acceptInvitation"
+      post: 
+        summary: "Accept Invitation"
+        externalDocs: 
+          description: "Managing your organization > Community > Accept Invitation"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Accept_Invitation/02r3000000m4000000/"
+        description: "When a group owner or an administrator invites a user to their group, it results in a user invitation. The invited user accepts the invitation using the Accept Invitation operation (POST only). This operation adds the invited user to the group, and the invitation is deleted. This operation also creates a notification for the user indicating that the user's invitation was accepted. Available only to authenticated users"
+        operationId: "acceptInvitation"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:acceptInvitation"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/invitationId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/acceptInvitation"
+    /sharing/rest/community/users/{userName}/invitations/{invitationId}/decline: 
+      x-swagger-router-controller: "declineInvitation"
+      post: 
+        summary: "Decline Invitation"
+        externalDocs: 
+          description: "Managing your organization > Community > Decline Invitation"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Decline_Invitation/02r3000000m8000000/"
+        description: "When a group administrator invites a user to their group, it results in a group invitation. The invited user can decline the invitation using the Decline Invitation operation (POST only). The operation deletes the invitation and creates a notification for the user indicating that they declined the invitation. The invited user is not added to the group. Available only to authenticated users"
+        operationId: "declineInvitation"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:declineInvitation"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/invitationId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/declineInvitation"
     /sharing/rest/community/users/{userName}/notifications/{notificationId}: 
       x-swagger-router-controller: "getNotification"
       get: 
@@ -247,11 +971,7 @@
           - 
             $ref: "#/parameters/userName"
           - 
-            name: "notificationId"
-            in: "path"
-            description: "Id of the notification"
-            required: true
-            type: "string"
+            $ref: "#/parameters/notificationId"
           - 
             $ref: "#/parameters/f"
           - 
@@ -286,20 +1006,24 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getNotification"
-    /sharing/rest/community/self: 
-      x-swagger-router-controller: "getUserSelf"
-      get: 
-        summary: "Self"
+    /sharing/rest/community/users/{userName}/notifications/{notificationId}/delete: 
+      x-swagger-router-controller: "deleteNotification"
+      post: 
+        summary: "Delete Notification"
         externalDocs: 
-          description: "Managing your organization > Community > Self"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Self/02r300000079000000/"
-        description: "This resource allows discovery of the current authenticated user identified by the token"
-        operationId: "getUserSelf"
+          description: "Managing your organization > Community > Delete Notification"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Notification/02r3000000mv000000/"
+        description: "The Delete Notification operation (POST only) is available only to the user who receives the notification"
+        operationId: "deleteNotification"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getUserSelf"
+              - "post:deleteNotification"
         parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/notificationId"
           - 
             $ref: "#/parameters/f"
           - 
@@ -308,7 +1032,7 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getUser"
+              $ref: "#/definitions/deleteNotification"
     /sharing/rest/community/users/{userName}/update: 
       x-swagger-router-controller: "updateUser"
       post: 
@@ -334,87 +1058,6 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/updateUser"
-    /sharing/rest/community/users/{userName}: 
-      x-swagger-router-controller: "getUser"
-      get: 
-        summary: "User"
-        externalDocs: 
-          description: "Managing your organization > Community > User"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User/02r3000000m2000000/"
-        description: "A user resource representing a registered user of the portal. Personal details of the user, such as e-mail and groups, are returned only to the user or the administrator of the user's organization (the properties in the Response Properties table below). A user is not visible to any other user (except the organization's administrator) if their access setting is set to 'private."
-        operationId: "getUser"
-        security: 
-          - 
-            agol_oauth_implicit: 
-              - "read:getUser"
-        parameters: 
-          - 
-            $ref: "#/parameters/userName"
-          - 
-            $ref: "#/parameters/f"
-          - 
-            $ref: "#/parameters/token"
-        responses: 
-          200: 
-            description: "Success"
-            schema: 
-              $ref: "#/definitions/getUser"
-    /sharing/rest/community/users/{userName}/invitations/{invitationId}: 
-      x-swagger-router-controller: "getUserInvitation"
-      get: 
-        summary: "User Invitation"
-        externalDocs: 
-          description: "Managing your organization > Community > User Invitation"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitation/02r3000000mr000000/"
-        description: "An individual invitation to join a given group. The user can accept the invitation or decline the invitation. Invitations are currently only to join groups but may be extended in the future to allow for other targetTypes. Developers should design their applications so that targetTypes is checked and unknown targetTypes are ignored. Invitations are also currently only sent to usernames. This is determined by the type property of the invitation. In the future, other types of invitations may be introduced. Developers should design their applications to make sure they check type and ignore unknown types"
-        operationId: "getUserInvitation"
-        security: 
-          - 
-            agol_oauth_implicit: 
-              - "read:getUserInvitation"
-        parameters: 
-          - 
-            $ref: "#/parameters/userName"
-          - 
-            name: "invitationId"
-            in: "path"
-            description: "Id of the user invitation"
-            required: true
-            type: "string"
-          - 
-            $ref: "#/parameters/f"
-          - 
-            $ref: "#/parameters/token"
-        responses: 
-          200: 
-            description: "Success"
-            schema: 
-              $ref: "#/definitions/getUserInvitation"
-    /sharing/rest/community/users/{userName}/invitations: 
-      x-swagger-router-controller: "getUserInvitations"
-      get: 
-        summary: "User Invitations"
-        externalDocs: 
-          description: "Managing your organization > Community > User Invitations"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/User_Invitations/02r3000000m7000000/"
-        description: "Shows the invitations sent to the authenticated user"
-        operationId: "getUserInvitations"
-        security: 
-          - 
-            agol_oauth_implicit: 
-              - "read:getUserInvitations"
-        parameters: 
-          - 
-            $ref: "#/parameters/userName"
-          - 
-            $ref: "#/parameters/f"
-          - 
-            $ref: "#/parameters/token"
-        responses: 
-          200: 
-            description: "Success"
-            schema: 
-              $ref: "#/definitions/getUserInvitations"
     /sharing/rest/community/users/{userName}/tags: 
       x-swagger-router-controller: "getUserTags"
       get: 
@@ -440,22 +1083,22 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getUserTags"
-    /sharing/rest/content/items/{itemId}/groups: 
-      x-swagger-router-controller: "getItemGroups"
+    /sharing/rest/content/groups/{groupId}: 
+      x-swagger-router-controller: "getGroupContent"
       get: 
-        summary: "Groups"
+        summary: "Group Content"
         externalDocs: 
-          description: "Managing your organization > Content > Groups"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Groups/02r30000009p000000/"
-        description: "Lists the groups of which the item is a part. Only shows the groups that the calling user can access"
-        operationId: "getItemGroups"
+          description: "Managing your organization > Content > Group Content"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Content/02r300000081000000/"
+        description: "The group's content provides access to the items that are shared with the group. Group items are stored by reference and are not physically stored in a group. Rather, they are stored as links to the original item in the item resource (/content/items/<itemId>). Available only to the users of the group and the administrator of the organization to which the group belongs, if any"
+        operationId: "getGroupContent"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getItemGroups"
+              - "read:getGroupContent"
         parameters: 
           - 
-            $ref: "#/parameters/itemId"
+            $ref: "#/parameters/groupId"
           - 
             $ref: "#/parameters/f"
           - 
@@ -464,7 +1107,7 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getItemGroups"
+              $ref: "#/definitions/getGroupContent"
     /sharing/rest/content/items/{itemId}: 
       x-swagger-router-controller: "getItem"
       get: 
@@ -490,6 +1133,38 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getItem"
+    /sharing/rest/content/items/{itemId}/addComment: 
+      x-swagger-router-controller: "addComment"
+      post: 
+        summary: "Add Comment"
+        externalDocs: 
+          description: "Managing your organization > Content > Add Comment"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Comment/02r300000090000000/"
+        description: "Adds a comment to an item (POST only). Available only to authenticated users who have access to the item"
+        operationId: "addComment"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:addComment"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            name: "comment"
+            in: "body"
+            description: "Text of the comment to be added"
+            required: true
+            schema: 
+              type: "string"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/addComment"
     /sharing/rest/content/items/{itemId}/comments: 
       x-swagger-router-controller: "getItemComments"
       get: 
@@ -532,11 +1207,7 @@
           - 
             $ref: "#/parameters/itemId"
           - 
-            name: "commentId"
-            in: "path"
-            description: "Id of the comment"
-            required: true
-            type: "string"
+            $ref: "#/parameters/commentId"
           - 
             $ref: "#/parameters/f"
           - 
@@ -546,6 +1217,31 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getItemComment"
+    /sharing/rest/content/items/{itemId}/groups: 
+      x-swagger-router-controller: "getItemGroups"
+      get: 
+        summary: "Groups"
+        externalDocs: 
+          description: "Managing your organization > Content > Groups"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Groups/02r30000009p000000/"
+        description: "Lists the groups of which the item is a part. Only shows the groups that the calling user can access"
+        operationId: "getItemGroups"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getItemGroups"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getItemGroups"
     /sharing/rest/content/items/{itemId}/rating: 
       x-swagger-router-controller: "getItemRating"
       get: 
@@ -610,22 +1306,24 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getRelatedItems"
-    /sharing/rest/content/groups/{groupId}: 
-      x-swagger-router-controller: "getGroupContent"
-      get: 
-        summary: "Group Content"
+    /sharing/rest/content/items/{itemId}/addPart: 
+      x-swagger-router-controller: "addItemPart"
+      post: 
+        summary: "Add Item Part"
         externalDocs: 
-          description: "Managing your organization > Content > Group Content"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Group_Content/02r300000081000000/"
-        description: "The group's content provides access to the items that are shared with the group. Group items are stored by reference and are not physically stored in a group. Rather, they are stored as links to the original item in the item resource (/content/items/<itemId>). Available only to the users of the group and the administrator of the organization to which the group belongs, if any"
-        operationId: "getGroupContent"
+          description: "Managing your organization > Content > Add Item Part"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item_Part/02r300000094000000/"
+        description: "Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. Each upload takes an integer part number that indicates the order of this part compared to others. Each part can be uploaded at any time, in any order, even simultaneously. Each file part must be uploaded in an HTTP multipart request pursuant to IETF RFC1867."
+        operationId: "addItemPart"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getGroupContent"
+              - "post:addItemPart"
         parameters: 
           - 
-            $ref: "#/parameters/groupId"
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/partDetails"
           - 
             $ref: "#/parameters/f"
           - 
@@ -634,7 +1332,95 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getGroupContent"
+              $ref: "#/definitions/addItemPart"
+    /sharing/rest/content/items/{itemId}/addRating: 
+      x-swagger-router-controller: "addRating"
+      post: 
+        summary: "Add Rating"
+        externalDocs: 
+          description: "Managing your organization > Content > Add Rating"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Rating/02r30000007v000000/"
+        description: "Adds a rating to an item to which you have access (POST only). Only one rating can be given to an item per user. If this call is made on a currently rated item, the new rating will overwrite the existing rating. A user cannot rate their own item. Available only to authenticated users"
+        operationId: "addRating"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:addRating"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            name: "rating"
+            in: "body"
+            description: "Rating to set for the item. Rating must be a floating point number between 1.0 and 5.0."
+            required: true
+            schema: 
+              type: "number"
+              minimum: 1
+              maximum: 5
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/addRating"
+    /sharing/rest/content/items/{itemId}/comments/{commentId}/delete: 
+      x-swagger-router-controller: "deleteComment"
+      post: 
+        summary: "Delete Comment"
+        externalDocs: 
+          description: "Managing your organization > Content > Delete Comment"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Comment/02r300000072000000/"
+        description: "Deletes the particular comment (POST only). This functionality is available to authenticated users who originally created the comment and item owners on items that they own"
+        operationId: "deleteComment"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:deleteComment"
+        parameters: 
+          - 
+            $ref: "#/parameters/itemId"
+          - 
+            $ref: "#/parameters/commentId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/deleteComment"
+    /sharing/rest/content/items/{userName}/addItem: 
+      x-swagger-router-controller: "addItem"
+      post: 
+        summary: "Add Item"
+        externalDocs: 
+          description: "Managing your organization > Content > Add Item"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item/02r30000008q000000/"
+        description: "The Add Item operation (POST only) is used to upload an item file, submit text content, or submit the item URL to the specified user folder depending on documented items and item types. This operation is available only to the specified user. The request to upload an item file must be a multipart request pursuant to IETF RFC1867. The request to submit text content or a URL can be a standard HTTP POST request. The user owning the folder automatically becomes the owner of the item. The item is flagged as private (that is, not shared with any group) by default. This can be changed using the Share Item operation. The added item is available to everyone it's shared with at the item resource. The item is also available to the owner at the user item resource, which supports operations to update, delete, move, share, and unshare items. The addItem operation allows users to optionally create a relationship and share an item in one call. See Add Relationship for parameter information. The same rules apply, with the following exceptions: \nIf you specify an originItemId, the new item is added as the destination item. \nIf you specify a destinationitemId, the new item is added as the origin item. \nIf you specify both, an error is thrown. \nThe relationship creation is done after the item is created. \nIf the item doesn’t add correctly, no relationship is created. \nIf the item adds correctly, but the relationship fails (that is, bad relationship type, invalid origin or destination item, and so on), the item is deleted. \nThe destination item will inherit all the sharing permissions of the origin item. \nThe filename or URL used for an item must be unique within the particular user's folder."
+        operationId: "addItem"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:addItem"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/itemDetails"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/addItem"
     /sharing/rest/content/users/{userName}: 
       x-swagger-router-controller: "getUserContent"
       get: 
@@ -660,20 +1446,29 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getUserContent"
-    /sharing/rest/portals/self: 
-      x-swagger-router-controller: "getPortalSelf"
-      get: 
-        summary: "Portal Self"
+    /sharing/rest/content/users/{userName}/createFolder: 
+      x-swagger-router-controller: "createFolder"
+      post: 
+        summary: "Create Folder"
         externalDocs: 
-          description: "Managing your organization > Portals > Self"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/"
-        description: "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users."
-        operationId: "getPortalSelf"
+          description: "Managing your organization > Content > Create Folder"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Folder/02r300000074000000/"
+        description: "Creates a folder in which items can be placed. Folders are only visible to a user and solely used for organizing content within that user's content space. The create user folder operation (POST only) is available only on the user's root folder. Multilevel folders are not supported. The user provides the title for the folder, which must be unique to that user. The folder ID is generated by the system. "
+        operationId: "createFolder"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getPortalSelf"
+              - "post:createFolder"
         parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            name: "title"
+            in: "body"
+            description: "The folder title. Two folders that belong to the same user cannot have the same title."
+            required: true
+            schema: 
+              type: "string"
           - 
             $ref: "#/parameters/f"
           - 
@@ -682,7 +1477,144 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getPortalSelf"
+              $ref: "#/definitions/createFolder"
+    /sharing/rest/content/users/{userName}/createService: 
+      x-swagger-router-controller: "createService"
+      post: 
+        summary: "Create Service"
+        externalDocs: 
+          description: "Managing your organization > Content > Create Service"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Service/02r30000027r000000/"
+        description: "The Create Service operation (POST only) allows users to create a hosted feature service. You can use the API to create an empty hosted feaure service from feature service metadata JSON"
+        operationId: "createService"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:createService"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/serviceDetails"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/createService"
+    /sharing/rest/content/users/{userName}/{folderId}/delete: 
+      x-swagger-router-controller: "deleteFolder"
+      post: 
+        summary: "Delete Folder"
+        externalDocs: 
+          description: "Managing your organization > Content > Delete Folder"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Delete_Folder/02r30000008m000000/"
+        description: "The delete user folder operation (POST only) is available only on the user's non-root folders. The user's root folder cannot be deleted. Deleting a folder also deletes all items that it contains (both the items and the links are removed)"
+        operationId: "deleteFolder"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "post:deleteFolder"
+        parameters: 
+          - 
+            $ref: "#/parameters/userName"
+          - 
+            $ref: "#/parameters/folderId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/deleteFolder"
+    /sharing/rest/generateToken: 
+      x-swagger-router-controller: "generateToken"
+      post: 
+        summary: "Generate Token"
+        externalDocs: 
+          description: "Managing your organization > Generate Token"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Generate_Token/02r3000000m5000000/"
+        description: "This operation generates an access token in exchange for user credentials that can be used by clients when working with the ArcGIS Portal API. The call is only allowed over HTTPS and must be a POST. The access token represents the authenticated user for a certain amount of time to all other API functionality. Developers using the API must take care to protect the token against malicious use just as they would the original credentials, and they must be prepared to renew the token. Expired tokens will be rejected by the server. From version 2.1, the generateToken operation also supports generation of a server-token in exchange for a portal token. This server-token is required for clients to access resources from a federated server. The parameters token and serverUrl are required to generate a server-token. See the descriptions of these parameters below for additional information. Organizations that choose to implement higher levels of security for their organizations can set the allSSL setting to true for their organization or portal. The effect of setting allSSL to true is that all non-HTTPS requests for resources belonging to the organization will be rejected. Setting allSSL to true guarantees that all transmissions of access tokens as well as data between clients and servers is over a secure encrypted channel and provides protection to tokens and data in transit. When generateToken is called for a user in such an organization, it returns a response property of ssl=true, and the token must always be passed back via HTTPS to the portal."
+        operationId: "generateToken"
+        security: []
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/tokenDetails"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/generateToken"
+    /sharing/rest/portals/languages: 
+      x-swagger-router-controller: "getPortalLanguages"
+      get: 
+        summary: "Languages"
+        externalDocs: 
+          description: "Managing your organization > Portals > Languages"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/"
+        description: "Lists the available languages"
+        operationId: "getPortalLanguages"
+        security: []
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getPortalLanguages"
+    /sharing/rest/portals/{portalId}/servers/{serverId}: 
+      x-swagger-router-controller: "getPortalServer"
+      get: 
+        summary: "Server"
+        externalDocs: 
+          description: "Managing your organization > Portals > Server"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/"
+        description: "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS"
+        operationId: "getPortalServer"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getPortalServer"
+        parameters: 
+          - 
+            $ref: "#/parameters/portalId"
+          - 
+            $ref: "#/parameters/serverId"
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getPortalServer"
+    /sharing/rest/portals/regions: 
+      x-swagger-router-controller: "getPortalRegions"
+      get: 
+        summary: "Regions"
+        externalDocs: 
+          description: "Managing your organization > Portals > Regions"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/"
+        description: "Lists the available regions"
+        operationId: "getPortalRegions"
+        security: []
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getPortalRegions"
     /sharing/rest/portals/resources: 
       x-swagger-router-controller: "getPortalResources"
       get: 
@@ -710,6 +1642,29 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getPortalResources"
+    /sharing/rest/portals/self: 
+      x-swagger-router-controller: "getPortalSelf"
+      get: 
+        summary: "Portal Self"
+        externalDocs: 
+          description: "Managing your organization > Portals > Self"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Portal_Self/02r3000001m7000000/"
+        description: "The Portal Self resource is used to return the view of the portal as seen by the current user, anonymous or logged in. It includes information such as the name, logo, featured items, and supported protocols (HTTP vs. HTTPS) for this portal. If the user is not logged in, this call will return the default view of the portal. If the user is logged in, the view of the returned portal will be specific to the organization to which the user belongs. The default view of the portal is dependent on the culture of the user, which is obtained from the user's profile. A parameter to pass in the locale/culture is available for anonymous users."
+        operationId: "getPortalSelf"
+        security: 
+          - 
+            agol_oauth_implicit: 
+              - "read:getPortalSelf"
+        parameters: 
+          - 
+            $ref: "#/parameters/f"
+          - 
+            $ref: "#/parameters/token"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/getPortalSelf"
     /sharing/rest/portals/servers: 
       x-swagger-router-controller: "getPortalServers"
       get: 
@@ -760,60 +1715,32 @@
             description: "Success"
             schema: 
               $ref: "#/definitions/getUsers"
-    /sharing/rest/portals/regions: 
-      x-swagger-router-controller: "getPortalRegions"
+    /sharing/rest/search: 
+      x-swagger-router-controller: "search"
       get: 
-        summary: "Regions"
+        summary: "Search"
         externalDocs: 
-          description: "Managing your organization > Portals > Regions"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Regions/02r300000099000000/"
-        description: "Lists the available regions"
-        operationId: "getPortalRegions"
-        security: []
-        parameters: 
-          - 
-            $ref: "#/parameters/f"
-        responses: 
-          200: 
-            description: "Success"
-            schema: 
-              $ref: "#/definitions/getPortalRegions"
-    /sharing/rest/portals/languages: 
-      x-swagger-router-controller: "getPortalLanguages"
-      get: 
-        summary: "Languages"
-        externalDocs: 
-          description: "Managing your organization > Portals > Languages"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Languages/02r300000095000000/"
-        description: "Lists the available languages"
-        operationId: "getPortalLanguages"
-        security: []
-        parameters: 
-          - 
-            $ref: "#/parameters/f"
-        responses: 
-          200: 
-            description: "Success"
-            schema: 
-              $ref: "#/definitions/getPortalLanguages"
-    /sharing/rest/portals/{portalId}/servers/{serverId}: 
-      x-swagger-router-controller: "getPortalServer"
-      get: 
-        summary: "Server"
-        externalDocs: 
-          description: "Managing your organization > Portals > Server"
-          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Server/02r300000219000000/"
-        description: "This resource represents an ArcGIS Server site that has been federated with the portal. This resource is not applicable to ArcGIS Online; it is only applicable to Portal for ArcGIS"
-        operationId: "getPortalServer"
+          description: "Managing your organization > Search"
+          url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Root/02r30000009t000000/"
+        description: "The Root resource only returns the version of the containing portal. It acts as a root to its child resources and operations. To obtain descriptive information about this portal including its name, logo, featured items, and supported protocols (HTTP vs HTTPS), access the Self resource under Portals."
+        operationId: "search"
         security: 
           - 
             agol_oauth_implicit: 
-              - "read:getPortalServer"
+              - "read:search"
         parameters: 
           - 
-            $ref: "#/parameters/portalId"
+            $ref: "#/parameters/q"
           - 
-            $ref: "#/parameters/serverId"
+            $ref: "#/parameters/bbox"
+          - 
+            $ref: "#/parameters/start"
+          - 
+            $ref: "#/parameters/num"
+          - 
+            $ref: "#/parameters/sortField"
+          - 
+            $ref: "#/parameters/sortOrder"
           - 
             $ref: "#/parameters/f"
           - 
@@ -822,7 +1749,7 @@
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/getPortalServer"
+              $ref: "#/definitions/search"
     /swagger: 
       x-swagger-pipe: "swagger_raw"
   definitions: 
@@ -975,9 +1902,7 @@
         group: 
           type: "object"
           description: "The JSON group object representing the created group. See the Group response properties for the properties returned"
-          oneOf: 
-            - 
-              $ref: "#/definitions/getGroup"
+          $ref: "#/definitions/getGroup"
       required: 
         - "success"
         - "group"
@@ -1246,9 +2171,7 @@
       maxLength: 2
       items: 
         type: "object"
-        oneOf: 
-          - 
-            $ref: "#/definitions/getCoordinate"
+        $ref: "#/definitions/getCoordinate"
     getFolder: 
       type: 
         - "object"
@@ -3106,4 +4029,264 @@
       required: 
         - "success"
         - "username"
+    groupCommonParameters: 
+      type: "object"
+      description: "Common parameters for creating and updating group information"
+      externalDocs: 
+        description: "Managing your organization > Concepts > Common Parameters"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Common_parameters/02r30000009v000000/"
+      title: "groupCommonParameters"
+      properties: 
+        title: 
+          type: "string"
+          description: "The group title must be unique for the username, and the character limit is 250. Example: title=Redlands Fire Department"
+          maxLength: 250
+        description: 
+          type: "string"
+          description: "A description of the group that can be any length"
+        snippet: 
+          type: "string"
+          description: "Snippet or summary of the group that has a character limit of 250 characters"
+          maxLength: 250
+        tags: 
+          type: "string"
+          description: "Tags are words or short phrases that describe the group. Separate terms with commas. Example: tags=fire, Redlands, California, public safety"
+        phone: 
+          type: "string"
+          description: "Phone is the group contact information. It can be a combination of letters and numbers. The character limit is 250. Example: phone=http://www.ci.redlands.ca.us/fire/index.htm, 35 Cajon Street, Redlands, CA 92373"
+          maxLength: 250
+        access: 
+          type: "string"
+          description: "Sets the access level for the group. private is the default. Setting to org restricts group access to members of your organization. If public, all users can access the group. Values: private | org |public. Example: access=org"
+          enum: 
+            - "private"
+            - "org"
+            - "public"
+        sortField: 
+          type: "string"
+          description: "Sets sort field for group items. Values: title | owner | avgrating |numviews| created | modified. Example: sortField=avgrating"
+          enum: 
+            - "title"
+            - "owner"
+            - "avgrating"
+            - "numviews"
+            - "created"
+            - "modified"
+        sortOrder: 
+          type: "string"
+          description: "Sets sort order for group items. Values: asc | desc. Example: sortOrder=desc"
+          enum: 
+            - "asc"
+            - "desc"
+        isViewOnly: 
+          type: "boolean"
+          description: "Allows the group owner or admin to create view-only groups where members are not able to share items. If members try to share, view-only groups are returned in the notshared response property. false is the default. Values: false | true. Example: isViewOnly=true"
+          default: false
+        isInvitationOnly: 
+          type: "boolean"
+          description: "If true, this group will not accept join requests. If false, this group does not require an invitation to join. Only group owners and admins can invite users to the group. false is the default. Values: true | false. Example: isInvitationOnly=true"
+          default: false
+        thumbnail: 
+          type: "string"
+          description: "Enter the pathname to the thumbnail image to be used for the group. The recommended image size is 200 pixels wide by 133 pixels high. Acceptable image formats are PNG, GIF, and JPEG. The maximum file size for an image is 1 MB. This is not a reference to the file but the file itself, which will be stored in the Portal. Example: thumbnail=subfolder/thumbnail.jpg"
+        clearEmptyFields: 
+          type: "boolean"
+          description: "Tells service to clear any fields that are passed in empty (for example, snippet=&description=)"
+    inviteDetails: 
+      type: "object"
+      description: "Details for inviting users to a group"
+      externalDocs: 
+        description: "Managing your organization > Community > Invite to Group"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Invite_to_Group/02r30000006v000000/"
+      title: "groupCommonParameters"
+      properties: 
+        users: 
+          type: "string"
+          description: "A comma separated list of usernames to be invited to the group. If a user is already a member of the group or an invitation has already been sent, the call still returns a success. Example: users=regularusername1,regularusername2"
+        role: 
+          type: "string"
+          description: "Allows administrators to set the user's role in the group. Roles are: group_member: Ability to view and share items with group. group_admin: In addition to viewing and sharing items, the group_admin has the same capabilities as the group owner�invite users to the group, accept or decline group applications, delete content, and remove users."
+          enum: 
+            - "group_member"
+            - "group_admin"
+        expiration: 
+          type: "number"
+          description: "Expiration date on the invitation can be set for one day, three days, one week, or two weeks, in minutes. Example: expiration=1440"
+      required: 
+        - "users"
+        - "role"
+        - "expiration"
+    partDetails: 
+      type: "object"
+      description: "Details for adding an item part"
+      externalDocs: 
+        description: "Managing your organization > Content > Add Item Part"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item_Part/02r300000094000000/"
+      title: "partDetails"
+      properties: 
+        file: 
+          type: "string"
+          description: "The file to be uploaded"
+        partNum: 
+          type: "string"
+          description: "Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely identifies a part and also defines its position within the object being created. If you upload a new part using the same part number that was used with a previous part, the previously uploaded part is overwritten. Each part must be at least five (5) megabytes, except the last part. There is no size requirement on the last part of a multipart upload. Example: partNum=1"
+      required: 
+        - "file"
+        - "partNum"
+    itemDetails: 
+      type: "object"
+      description: "Details for adding an item"
+      externalDocs: 
+        description: "Managing your organization > Content > Add Item"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Add_Item/02r30000008q000000/"
+      title: "itemDetails"
+      properties: 
+        file: 
+          type: "string"
+          description: "The file to be uploaded. If uploading a file, the request must be a multipart request"
+        dataUrl: 
+          type: "string"
+          description: "The URL where the item can be downloaded. The resource will be downloaded and stored as a file type. Similar to uploading a file to be added, but instead of transferring the contents of the file, the URL of the data file is referenced and creates a file item. Please see the implementation details section (in the documentation article) which discusses this parameter in further details"
+        url: 
+          type: "string"
+          description: "The URL of the item to be submitted. The URL can be a URL to a service, a web mapping application, or any other content available at that URL. Example: url=http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_Imagery_World_2D/MapServer"
+        text: 
+          type: "string"
+          description: "The text content for the item to be submitted. Example: text=Any+plain+text+content"
+        relationshipType: 
+          type: "string"
+          description: "The type of relationship between the two items. See Relationship types for a complete listing of types. Example: WMA2Code"
+        originItemId: 
+          type: "string"
+          description: "The item ID of the origin item of the relationship. Example: bb297e5eac6d489e85993d5e4d4e4a20"
+        destinationItemId: 
+          type: "string"
+          description: "The item ID of the destination item of the relationship. Example: 8d292f9b0cd5457bbdad84c02223ffb8"
+        async: 
+          type: "boolean"
+          default: false
+          description: "If true, the file is uploaded asynchronously. If false, the file is uploaded synchronously. Default is false. Example: async=true"
+        multipart: 
+          type: "boolean"
+          description: "If true, the file is uploaded in multiple parts. See the Multipart Uploads section above for more information"
+        filename: 
+          type: "string"
+          description: "The filename being uploaded in multipart mode. Required if multipart=true"
+        serviceProxyParams: 
+          type: "object"
+          description: "A JSON object that provides rate limiting and referrer checks when accessing secured services. Example: serviceProxyParams: \"hitsPerInterval\":2,\"intervalSeconds\":60,\"referrers\":[\"http://<servername>\"]}"
+          properties: 
+            hitsPerInterval: 
+              type: "number"
+            intervalSeconds: 
+              type: "number"
+            referrers: 
+              type: "string"
+    serviceDetails: 
+      type: "object"
+      description: "Details for creating a service"
+      externalDocs: 
+        description: "Managing your organization > Content > Create Service"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Service/02r30000027r000000/"
+      title: "serviceDetails"
+      properties: 
+        createParameters: 
+          type: "object"
+          description: ""
+          properties: 
+            name: 
+              type: "string"
+              description: "Name of the service to be created. This name must be unique. If the name already exists, the operation will fail"
+            serviceDescription: 
+              type: "string"
+              description: "Description given to the service"
+            hasStaticData: 
+              type: "boolean"
+              description: "Boolean value indicating whether the data changes"
+            maxRecordCount: 
+              type: "number"
+              description: "A double value indicating any constraints enforced on query operations"
+            supportedQueryFormats: 
+              type: "string"
+              description: "The formats in which query results are returned"
+            capabilities: 
+              type: "string"
+              description: "Specify feature service editing capabilities for Create, Delete, Query, Update, and Sync. The value is a comma-delimited (no spaces) string of some of these values: Create, Delete, Query, Update, Sync"
+            description: 
+              type: "string"
+              description: "A user-friendly description for the published dataset"
+            copyrightText: 
+              type: "string"
+              description: "Copyright information associated with the dataset"
+            spatialReference: 
+              type: "object"
+              properties: 
+                wkid: 
+                  type: "number"
+              description: "All layers added to a hosted feature service need to have the same spatial reference defined for the feature service. When creating a new empty service without specifying its spatial reference, the spatial reference of the hosted feature service is set to the first layer added to that feature service"
+            initialExtent: 
+              description: "The initial extent set for the service"
+              $ref: "#/definitions/getExtent"
+            allowGeometryUpdates: 
+              type: "boolean"
+              description: "Boolean value indicating if updating the geometry of the service is permitted"
+            units: 
+              type: "string"
+              description: "Units used by the feature service"
+            xssPreventionInfo: 
+              type: "object"
+              description: "A JSON object specifying the properties of cross-site scripting prevention"
+              properties: 
+                xssPreventionEnabled: 
+                  type: "boolean"
+                  description: "Boolean value indicating whether cross-site scripting prevention is enabled"
+                xssPreventionRule: 
+                  type: "string"
+                  enum: 
+                    - "InputOnly"
+                    - "InputOutput"
+                xssInputRule: 
+                  type: "string"
+                  enum: 
+                    - "rejectInvalid"
+                    - "sanitizeInvalid"
+          required: 
+            - "name"
+        outputType: 
+          type: "string"
+          description: "The newly-created service type"
+          default: "featureService"
+          enum: 
+            - "featureService"
+    tokenDetails: 
+      type: "object"
+      description: "Details for generating a token"
+      externalDocs: 
+        description: "Managing your organization > Content > Create Service"
+        url: "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Create_Service/02r30000027r000000/"
+      title: "tokenDetails"
+      properties: 
+        username: 
+          type: "string"
+          description: "Username of user who wants to get a token"
+        password: 
+          type: "string"
+          description: "Password of user who wants to get a token"
+        client: 
+          type: "string"
+          description: "The client type that will be granted access to the token. Only the referer value is supported. In the Generate Token page, select the Webapp URL option to specify the referer."
+          enum: 
+            - "referer"
+        referer: 
+          type: "string"
+          description: "The base URL of the client application that will use the token to access the Portal for ArcGIS API. In the Generate Token page, the referer is specified in the Webapp URL field, for example: referer=http: //myserver/mywebapp"
+        expiration: 
+          type: "number"
+          description: "The token expiration time in minutes. The default is 60 minutes. The maximum expiration period is 15 days. Example: expiration=60 (1 hour). The maximum value of the expiration time is controlled by the server. Requests for tokens larger than this time will be rejected. Applications are responsible for renewing expired tokens; expired tokens will be rejected by the server on subsequent requests that use the token."
+        token: 
+          type: "string"
+          description: "Portal token generated in exchange for user credentials for use by clients working with a federated server. Example: token=<portalToken>. This parameter is required only when generating a server-token. Username, password, client, referrer, and expiration parameters are not required for generating a server-token. The referrer and expiration time of the portal token will be applied to the server-token. "
+        serverURL: 
+          type: "string"
+          description: "URL of a federated server for which a server-token needs to be generated. Example: serverUrl=<http://myserver.esri.com/arcgis>. A server-token will be returned only if the serverUrl contains the URL of a server that is registered with the portal. A server-token will not be generated for a server that is not registered with the portal. "
 
